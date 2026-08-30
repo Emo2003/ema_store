@@ -19,7 +19,8 @@ class Products {
       this.brand, 
       this.ratingsAverage, 
       this.createdAt, 
-      this.updatedAt, 
+      this.updatedAt,
+    this.priceAfterDiscount
   });
 
   Products.fromJson(dynamic json) {
@@ -38,12 +39,14 @@ class Products {
     description = json['description'];
     quantity = json['quantity'];
     price = json['price'];
+    priceAfterDiscount = json['priceAfterDiscount'];
     imageCover = json['imageCover'];
     category = json['category'] != null ? Category.fromJson(json['category']) : null;
     brand = json['brand'] != null ? Brand.fromJson(json['brand']) : null;
     ratingsAverage = json['ratingsAverage'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+
   }
   num? sold;
   List<String>? images;
@@ -55,6 +58,7 @@ class Products {
   String? description;
   num? quantity;
   num? price;
+  num? priceAfterDiscount;
   String? imageCover;
   Category? category;
   Brand? brand;
@@ -76,6 +80,7 @@ class Products {
     map['description'] = description;
     map['quantity'] = quantity;
     map['price'] = price;
+    map['priceAfterDiscount'] = priceAfterDiscount;
     map['imageCover'] = imageCover;
     if (category != null) {
       map['category'] = category?.toJson();

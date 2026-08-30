@@ -18,9 +18,8 @@ class HomeRepoImp implements HomeRepo {
   Future<List<Brands>> allBrands() async {
     try {
       var res = await homeDataSource.allBrands();
-      List<Brands> data = (res.data as List)
-          .map((e) => Brands.fromJson(e))
-          .toList();
+      final rawList = res.data['data'] as List;
+      List<Brands> data = rawList.map((e) => Brands.fromJson(e)).toList();
       return data;
     } on DioException catch (e) {
       throw ServerFailure.fromDioError(e).message;
@@ -33,7 +32,8 @@ class HomeRepoImp implements HomeRepo {
   Future<List<Categories>> allCategories() async {
     try {
       var res = await homeDataSource.allCategories();
-      List<Categories> data = (res.data as List)
+      final rawList = res.data['data'] as List;
+      List<Categories> data = rawList
           .map((e) => Categories.fromJson(e))
           .toList();
       return data;
@@ -48,9 +48,8 @@ class HomeRepoImp implements HomeRepo {
   Future<List<Products>> allProducts() async {
     try {
       var res = await homeDataSource.allProducts();
-      List<Products> data = (res.data as List)
-          .map((e) => Products.fromJson(e))
-          .toList();
+      final rawList = res.data['data'] as List;
+      List<Products> data = rawList.map((e) => Products.fromJson(e)).toList();
       return data;
     } on DioException catch (e) {
       throw ServerFailure.fromDioError(e).message;

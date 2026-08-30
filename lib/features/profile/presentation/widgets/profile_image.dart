@@ -21,23 +21,23 @@ class ProfileImage extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(
               color: ColorManager.primary.withAlpha(120),
-              width: 2,
+              width: 4.h,
             ),
           ),
           child: ClipOval(
             child: Image.network(
               imageUrl,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
         ),
 
         Positioned(
-          right: 2.w,
-          bottom: 2.h,
+          right: 5.w,
+          bottom: 10.h,
           child: Container(
-            width: 30.w,
-            height: 30.h,
+            width: 35.w,
+            height: 35.h,
             decoration: BoxDecoration(
               color: ColorManager.primary,
               shape: BoxShape.circle,
@@ -49,7 +49,7 @@ class ProfileImage extends StatelessWidget {
             child: Icon(
               Icons.edit_rounded,
               color: ColorManager.white,
-              size: 15.sp,
+              size: 20.sp,
             ),
           ),
         ),

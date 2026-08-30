@@ -1,10 +1,11 @@
+import 'package:ema_store/features/home/data/models/categories/Categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/color_manager.dart';
 
 class CategoriesItems extends StatelessWidget {
-  final List<String> categories;
+  final List<Categories> categories;
 
   const CategoriesItems({
     super.key,
@@ -14,42 +15,49 @@ class CategoriesItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150.h,
+      height: 170.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) => 10.horizontalSpace,
         itemCount: categories.length > 4 ? 4 : categories.length,
         itemBuilder: (context, index) {
           return SizedBox(
-            width: 100.w,
+            width: 120.w,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 100.w,
-                  height: 100.h,
+                  width: 120.w,
+                  height: 120.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorManager.primary.withAlpha(50),
+                        blurRadius: 5.r,
+                        offset: Offset(0, 4.h),
+                      ),
+                    ],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(25.r),
-                    child: Image.asset(
-                      categories[index],
-                      fit: BoxFit.cover,
+                    child: Image.network(
+                      categories[index].image ?? "",
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
-
-                5.verticalSpace,
-
+                10.verticalSpace,
                 Text(
-                  "Fashion",
-                  maxLines: 1,
+                  categories[index].name ?? "",
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 13.sp,
-                    color: ColorManager.black,
+                    fontSize: 15.sp,
+                    color: ColorManager.primary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

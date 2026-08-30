@@ -1,10 +1,13 @@
+import 'package:ema_store/core/config/get_config.dart';
 import 'package:ema_store/core/resources/assets_manager.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/resources/color_manager.dart';
+import '../manager/home_cubit.dart';
 import 'home_page.dart';
 
 class LayoutPage extends StatefulWidget {
@@ -18,7 +21,10 @@ class _LayoutPageState extends State<LayoutPage> {
   int _selectedIndex = 0;
 
   final List<Widget> tabs = [
-    const HomePage(),
+    BlocProvider(
+      create: (context) => getIt<HomeCubit>(),
+      child: const HomePage(),
+    ),
     const Center(child: Text('Category Page', style: TextStyle(fontSize: 24))),
     const Center(child: Text('Fav Page', style: TextStyle(fontSize: 24))),
     const ProfilePage(),
@@ -102,7 +108,11 @@ class _LayoutPageState extends State<LayoutPage> {
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.profile, isSelected: false, size: 20),
+              icon: circularIcon(
+                icon: IconsAssets.profile,
+                isSelected: false,
+                size: 20,
+              ),
               activeIcon: circularIcon(
                 icon: IconsAssets.profileActive,
                 isSelected: true,

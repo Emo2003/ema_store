@@ -15,7 +15,7 @@ class AuthDataSourceImp implements AuthDataSource {
     required String password,
   }) {
     return networkService.dio.post(
-      "/auth/signin",
+      "v1/auth/signin",
       data: {"email": email, "password": password},
     );
   }
@@ -29,7 +29,7 @@ class AuthDataSourceImp implements AuthDataSource {
     required String phone,
   }) {
     return networkService.dio.post(
-      "/auth/signup",
+      "v1/auth/signup",
       data: {
         "name": name,
         "email": email,
