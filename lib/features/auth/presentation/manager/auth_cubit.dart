@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../data/models/User.dart';
+
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepo repo;
@@ -22,6 +24,8 @@ class AuthCubit extends Cubit<AuthState> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
+  User? user;
+
   Future<void> login() async {
     emit(AuthLoading());
 
@@ -31,7 +35,8 @@ class AuthCubit extends Cubit<AuthState> {
         password: passwordController.text.trim(),
       );
 
-      emit(AuthSuccess(message: 'Login successful', user: res.user));
+      user = res.user;
+      emit(AuthSuccess(message: 'Login successful', user: user));
     } catch (e) {
       emit(AuthFailure(error: e.toString()));
     }
@@ -48,8 +53,8 @@ class AuthCubit extends Cubit<AuthState> {
         phone: phoneController.text.trim(),
         rePassword: confirmPasswordController.text.trim(),
       );
-
-      emit(AuthSuccess(message: 'Create Account  successful', user: res.user));
+    user = res.user;
+      emit(AuthSuccess(message: 'Create Account  successful', user: user));
     } catch (e) {
       emit(AuthFailure(error: e.toString()));
     }
