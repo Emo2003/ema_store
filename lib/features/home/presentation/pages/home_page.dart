@@ -128,8 +128,6 @@ class _HomePageState extends State<HomePage> {
                       final homeCubit = context.read<HomeCubit>();
 
                       final categories = homeCubit.categories;
-
-                      // Loading only if there is no old data
                       if (state is HomeCategoriesLoadingState &&
                           categories.isEmpty) {
                         return _sectionLoader();

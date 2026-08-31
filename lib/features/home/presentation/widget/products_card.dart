@@ -1,4 +1,6 @@
 import 'package:ema_store/core/routes/app_routes_names.dart';
+import 'package:ema_store/features/wishlist/presentation/manager/wishlist_cubit.dart';
+import 'package:ema_store/features/wishlist/presentation/manager/wishlist_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,20 +85,40 @@ class ProductsCard extends StatelessWidget {
                       Positioned(
                         top: 8.h,
                         right: 8.w,
-                        child: CircleAvatar(
-                          radius: 15.r,
-                          backgroundColor: ColorManager.primary.withAlpha(100),
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              // Add to favorite
-                            },
-                            icon: Icon(
-                              Icons.favorite_outline_rounded,
-                              color: ColorManager.primary,
-                              size: 20.sp,
-                            ),
-                          ),
+                        child: BlocBuilder<WishlistCubit, WishlistState>(
+                          builder: (context, state) {
+                            final isFavorite =
+                                state is WishlistSuccessState &&
+                                state.wishlistProducts.any(
+                                  (item) => item.id == product.id,
+                                );
+
+                            return CircleAvatar(
+                              radius: 15.r,
+                              backgroundColor: ColorManager.primary.withAlpha(
+                                100,
+                              ),
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: () {
+                                  final cubit = context.read<WishlistCubit>();
+
+                                  if (isFavorite) {
+                                    cubit.removeFromWishlist(product.id ?? '');
+                                  } else {
+                                    cubit.addToWishlist(product.id ?? '');
+                                  }
+                                },
+                                icon: Icon(
+                                  isFavorite
+                                      ? Icons.favorite_rounded
+                                      : Icons.favorite_outline_rounded,
+                                  color: ColorManager.primary,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],

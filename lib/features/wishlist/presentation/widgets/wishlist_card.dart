@@ -1,11 +1,16 @@
 import 'package:ema_store/features/wishlist/presentation/widgets/wish_card_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/color_manager.dart';
+import '../../data/models/WishListProducts.dart';
+import '../manager/wishlist_cubit.dart';
 
 class WishlistCard extends StatelessWidget {
-  const WishlistCard({super.key});
+  final Wishlistproducts wishlistProducts;
+
+  const WishlistCard({super.key, required this.wishlistProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class WishlistCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(18.r),
             child: Image.network(
-              "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQEkCTYsfUNBTi5PNI90jqtioGOudeuS8IgzRmDbHeP7SlFau1WBFx50vw12FCwM-Tq1zYJdbfsnawx6ZmGPC5xp5qnX4sHCHs3uVNhoSWLzeYcsfosI2tMfA&usqp=CAc",
+              wishlistProducts.imageCover ?? '',
               width: 105.w,
               height: 128.h,
               fit: BoxFit.cover,
@@ -45,8 +50,19 @@ class WishlistCard extends StatelessWidget {
               },
             ),
           ),
+
           12.horizontalSpace,
-          WishCardDetails(onTap: () {}),
+
+          Expanded(
+            child: WishCardDetails(
+              product: wishlistProducts,
+              onTap: () {
+                context.read<WishlistCubit>().removeFromWishlist(
+                  wishlistProducts.id ?? '',
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

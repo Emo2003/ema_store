@@ -51,6 +51,16 @@ import 'package:ema_store/features/profile/data/repositories/profile_repo_imp.da
     as _i108;
 import 'package:ema_store/features/profile/presentation/manager/profile_cubit.dart'
     as _i184;
+import 'package:ema_store/features/wishlist/data/data_sources/wishlist_data_source.dart'
+    as _i341;
+import 'package:ema_store/features/wishlist/data/data_sources/wishlist_data_source_imp.dart'
+    as _i925;
+import 'package:ema_store/features/wishlist/data/repositories/wishlist_repo.dart'
+    as _i437;
+import 'package:ema_store/features/wishlist/data/repositories/wishlist_repo_imp.dart'
+    as _i1049;
+import 'package:ema_store/features/wishlist/presentation/manager/wishlist_cubit.dart'
+    as _i628;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -76,6 +86,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i818.AuthDataSource>(
       () => _i965.AuthDataSourceImp(gh<_i521.NetworkService>()),
     );
+    gh.factory<_i341.WishlistDataSource>(
+      () => _i925.WishlistDataSourceImp(
+        networkService: gh<_i521.NetworkService>(),
+      ),
+    );
     gh.factory<_i640.CategoryRepo>(
       () => _i35.CategoryRepoImp(
         categoryDataSource: gh<_i394.CategoryDataSource>(),
@@ -87,6 +102,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1048.CategoryCubit>(
       () => _i1048.CategoryCubit(gh<_i640.CategoryRepo>()),
     );
+    gh.factory<_i437.WishlistRepo>(
+      () => _i1049.WishlistRepoImp(
+        wishlistDataSource: gh<_i341.WishlistDataSource>(),
+      ),
+    );
     gh.factory<_i959.HomeRepo>(
       () => _i385.HomeRepoImp(gh<_i568.HomeDataSource>()),
     );
@@ -96,6 +116,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i377.ProfileRepo>(
       () => _i108.ProfileRepoImp(gh<_i492.ProfileDataSource>()),
+    );
+    gh.factory<_i628.WishlistCubit>(
+      () => _i628.WishlistCubit(wishlistRepo: gh<_i437.WishlistRepo>()),
     );
     gh.factory<_i184.ProfileCubit>(
       () => _i184.ProfileCubit(gh<_i377.ProfileRepo>()),
