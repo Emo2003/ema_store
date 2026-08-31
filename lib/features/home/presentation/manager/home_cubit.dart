@@ -7,7 +7,7 @@ import '../../data/models/brands/brands.dart';
 import '../../data/models/categories/Categories.dart';
 import '../../data/models/products/Products.dart';
 
-@injectable
+@lazySingleton
 class HomeCubit extends Cubit<HomeState> {
   HomeRepo homeRepo;
 
@@ -63,6 +63,11 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     emit(HomeProductsSearchState());
+  }
+  Products? selectedProduct;
+
+  void selectProduct(Products product) {
+    selectedProduct = product;
   }
 
 

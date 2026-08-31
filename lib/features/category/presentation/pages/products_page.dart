@@ -1,12 +1,13 @@
-import 'package:ema_store/core/routes/app_routes_names.dart';
+import 'package:ema_store/core/resources/color_manager.dart';
 import 'package:ema_store/core/widget/custom_inside_app_bar.dart';
+import 'package:ema_store/core/widget/custom_loading.dart';
+import 'package:ema_store/features/category/presentation/manager/category_cubit.dart';
+import 'package:ema_store/features/category/presentation/manager/category_state.dart';
+import 'package:ema_store/features/home/presentation/widget/products_card.dart';
+import 'package:ema_store/features/home/presentation/widget/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/resources/color_manager.dart';
-import '../../../home/presentation/manager/home_cubit.dart';
-import '../../../home/presentation/widget/search_field.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -17,16 +18,41 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> {
   String searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      final cubit = context.read<CategoryCubit>();
+      if (cubit.selectedCategoryId != null) {
+        cubit.getProductsByCategory();
+      } else if (cubit.selectedBrandId != null) {
+        cubit.getProductsByBrand();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.secondary,
+
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
-        child: CustomInsideAppBar(title: 'Products'),
+        child: CustomInsideAppBar(
+          title: 'Products',
+        ),
       ),
+
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+          vertical: 20.h,
+        ),
+
         child: Column(
           children: [
             SearchField(
@@ -35,148 +61,73 @@ class _ProductsPageState extends State<ProductsPage> {
                   searchQuery = value;
                 });
 
-                context.read<HomeCubit>().searchProducts(value);
+                context.read<CategoryCubit>().searchProducts(value);
               },
             ),
+
             20.verticalSpace,
+
             Expanded(
-              child: GridView.builder(
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10.h,
-                  crossAxisSpacing: 7.w,
-                  childAspectRatio: 0.60,
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutesNames.productsDetails);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.r),
-                        border: Border.all(
-                          color: ColorManager.primary.withAlpha(100),
-                          width: 1.2.w,
-                        ),
+              child: BlocConsumer<CategoryCubit, CategoryState>(
+                listener: (context, state) {
+                  if (state is CategoryLoadingState ||
+                      state is BrandLoadingState) {
+                    CustomLoadingDialog.show(context);
+                  }
+
+                  if (state is CategorySuccessState ||
+                      state is BrandSuccessState ||
+                      state is CategorySearchState) {
+                    CustomLoadingDialog.hide(context);
+                  }
+
+                  if (state is CategoryErrorState ||
+                      state is BrandErrorState) {
+                    CustomLoadingDialog.hide(context);
+
+                    final message = state is CategoryErrorState
+                        ? state.message
+                        : (state as BrandErrorState).message;
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        backgroundColor: ColorManager.error,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 170.h,
-                            width: double.infinity,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.r),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.r),
-                                    child: Image.network(
-                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRijFWnaEROhzhUrzFrTJf7Z6wUtV3m4-Y2BDN4EohOYo7OYmsnjble0Z5v&s=10",
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                    );
+                  }
+                },
 
-                                Positioned(
-                                  top: 8.h,
-                                  right: 8.w,
-                                  child: CircleAvatar(
-                                    radius: 15.r,
-                                    backgroundColor: ColorManager.secondary,
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      onPressed: () {
-                                        // Add to favorite
-                                      },
-                                      icon: Icon(
-                                        Icons.favorite_outline_rounded,
-                                        color: ColorManager.primary,
-                                        size: 20.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                builder: (context, state) {
+                  final cubit = context.read<CategoryCubit>();
+                  if (state is CategoryErrorState ||
+                      state is BrandErrorState) {
+                    return const Center(
+                      child: Text('Something went wrong'),
+                    );
+                  }
+                  final bool isCategorySelected =
+                      cubit.selectedCategoryId != null;
 
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.all(10.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Product Name",
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: ColorManager.primary,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
+                  final products = state is CategorySearchState
+                      ? cubit.searchResults
+                      : (isCategorySelected
+                      ? cubit.categoryProducts
+                      : cubit.brandProducts);
 
-                                  6.verticalSpace,
-                                  Text(
-                                    "Price EGP",
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: ColorManager.primary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                  if (products.isEmpty) {
+                    if (state is CategoryLoadingState ||
+                        state is BrandLoadingState) {
+                      return const SizedBox();
+                    }
+                    return const Center(
+                      child: Text('No products found'),
+                    );
+                  }
 
-                                  Spacer(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        " Review ",
-                                        style: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: ColorManager.primary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      7.horizontalSpace,
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orangeAccent,
-                                        size: 16.sp,
-                                      ),
-                                      const Spacer(),
-                                      InkWell(
-                                        onTap: () {
-                                          // Add to cart
-                                        },
-                                        borderRadius: BorderRadius.circular(20.r),
-                                        splashColor: Colors.transparent,
-                                        child: CircleAvatar(
-                                          radius: 12.r,
-                                          backgroundColor: ColorManager.primary,
-                                          child: Icon(
-                                            Icons.add,
-                                            size: 20.sp,
-                                            color: ColorManager.secondary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return ProductsCard(
+                    isNotLoading: false,
+                    products: products,
                   );
                 },
               ),

@@ -21,6 +21,16 @@ import 'package:ema_store/features/auth/data/repositories/auth_repo_imp.dart'
     as _i207;
 import 'package:ema_store/features/auth/presentation/manager/auth_cubit.dart'
     as _i112;
+import 'package:ema_store/features/category/data/data_sources/category_data_source.dart'
+    as _i394;
+import 'package:ema_store/features/category/data/data_sources/category_data_source_imp.dart'
+    as _i405;
+import 'package:ema_store/features/category/data/repositories/category_repo.dart'
+    as _i640;
+import 'package:ema_store/features/category/data/repositories/category_repo_imp.dart'
+    as _i35;
+import 'package:ema_store/features/category/presentation/manager/category_cubit.dart'
+    as _i1048;
 import 'package:ema_store/features/home/data/data_sources/home_data_source.dart'
     as _i568;
 import 'package:ema_store/features/home/data/data_sources/home_data_source_imp.dart'
@@ -55,20 +65,35 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i492.ProfileDataSource>(
       () => _i104.ProfileDataSourceImp(gh<_i521.NetworkService>()),
     );
+    gh.factory<_i394.CategoryDataSource>(
+      () => _i405.CategoryDataSourceImp(
+        networkService: gh<_i521.NetworkService>(),
+      ),
+    );
     gh.factory<_i568.HomeDataSource>(
       () => _i111.HomeDataSourceImp(gh<_i521.NetworkService>()),
     );
     gh.factory<_i818.AuthDataSource>(
       () => _i965.AuthDataSourceImp(gh<_i521.NetworkService>()),
     );
+    gh.factory<_i640.CategoryRepo>(
+      () => _i35.CategoryRepoImp(
+        categoryDataSource: gh<_i394.CategoryDataSource>(),
+      ),
+    );
     gh.factory<_i706.AuthRepo>(
       () => _i207.AuthRepoImp(gh<_i818.AuthDataSource>()),
+    );
+    gh.lazySingleton<_i1048.CategoryCubit>(
+      () => _i1048.CategoryCubit(gh<_i640.CategoryRepo>()),
     );
     gh.factory<_i959.HomeRepo>(
       () => _i385.HomeRepoImp(gh<_i568.HomeDataSource>()),
     );
     gh.factory<_i112.AuthCubit>(() => _i112.AuthCubit(gh<_i706.AuthRepo>()));
-    gh.factory<_i574.HomeCubit>(() => _i574.HomeCubit(gh<_i959.HomeRepo>()));
+    gh.lazySingleton<_i574.HomeCubit>(
+      () => _i574.HomeCubit(gh<_i959.HomeRepo>()),
+    );
     gh.factory<_i377.ProfileRepo>(
       () => _i108.ProfileRepoImp(gh<_i492.ProfileDataSource>()),
     );

@@ -5,7 +5,15 @@ import '../resources/color_manager.dart';
 
 class CustomInsideAppBar extends StatelessWidget {
   final String title;
-  const CustomInsideAppBar({super.key, required this.title});
+  final VoidCallback? onBackPressed;
+  final bool showBackButton;
+
+  const CustomInsideAppBar({
+    super.key,
+    required this.title,
+    this.onBackPressed,
+    this.showBackButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +21,23 @@ class CustomInsideAppBar extends StatelessWidget {
       scrolledUnderElevation: 0,
       centerTitle: true,
       backgroundColor: ColorManager.secondary,
-      title:  Text(
+      automaticallyImplyLeading: showBackButton,
+      leading: showBackButton
+          ? IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: ColorManager.primary,
+        ),
+        onPressed: onBackPressed ?? () => Navigator.pop(context),
+      )
+          : null,
+      title: Text(
         title,
         style: TextStyle(
           fontSize: 22.sp,
           fontWeight: FontWeight.bold,
           color: ColorManager.primary,
         ),
-      ),
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorManager.primary),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     );
   }
