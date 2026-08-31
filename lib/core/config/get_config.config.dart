@@ -31,6 +31,16 @@ import 'package:ema_store/features/home/data/repositories/home_repo_imp.dart'
     as _i385;
 import 'package:ema_store/features/home/presentation/manager/home_cubit.dart'
     as _i574;
+import 'package:ema_store/features/profile/data/data_sources/profile_data_source.dart'
+    as _i492;
+import 'package:ema_store/features/profile/data/data_sources/profile_data_source_imp.dart'
+    as _i104;
+import 'package:ema_store/features/profile/data/repositories/profile_repo.dart'
+    as _i377;
+import 'package:ema_store/features/profile/data/repositories/profile_repo_imp.dart'
+    as _i108;
+import 'package:ema_store/features/profile/presentation/manager/profile_cubit.dart'
+    as _i184;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -42,6 +52,9 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.lazySingleton<_i521.NetworkService>(() => _i521.NetworkService());
+    gh.factory<_i492.ProfileDataSource>(
+      () => _i104.ProfileDataSourceImp(gh<_i521.NetworkService>()),
+    );
     gh.factory<_i568.HomeDataSource>(
       () => _i111.HomeDataSourceImp(gh<_i521.NetworkService>()),
     );
@@ -56,6 +69,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i112.AuthCubit>(() => _i112.AuthCubit(gh<_i706.AuthRepo>()));
     gh.factory<_i574.HomeCubit>(() => _i574.HomeCubit(gh<_i959.HomeRepo>()));
+    gh.factory<_i377.ProfileRepo>(
+      () => _i108.ProfileRepoImp(gh<_i492.ProfileDataSource>()),
+    );
+    gh.factory<_i184.ProfileCubit>(
+      () => _i184.ProfileCubit(gh<_i377.ProfileRepo>()),
+    );
     return this;
   }
 }

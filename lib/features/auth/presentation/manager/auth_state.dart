@@ -12,3 +12,4 @@ final class AuthFailure extends AuthState {
   final String error;
   AuthFailure({required this.error});
 }
+final class AuthUpdateUserState extends AuthState {}
