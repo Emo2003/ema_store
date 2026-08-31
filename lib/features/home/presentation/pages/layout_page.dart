@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
 import '../manager/home_cubit.dart';
 import 'home_page.dart';
 
@@ -29,22 +30,21 @@ class _LayoutPageState extends State<LayoutPage> {
     super.initState();
 
     tabs = [
-      BlocProvider(
-        create: (_) => getIt<HomeCubit>(),
-        child: HomePage(
-          onViewAllCategories: () {
-            setState(() {
-              _selectedIndex = 1;
-            });
-          },
-        ),
+      HomePage(
+        onViewAllCategories: () {
+          setState(() {
+            _selectedIndex = 1;
+          });
+        },
       ),
-
       BlocProvider(
         create: (_) => getIt<HomeCubit>()..getAllCategories(),
         child: const CategoryPage(),
       ),
-      const WishlistPage(),
+      BlocProvider(
+        create: (_) => getIt<WishlistCubit>(),
+        child: const WishlistPage(),
+      ),
       BlocProvider(
         create: (_) => getIt<ProfileCubit>(),
         child: const ProfilePage(),
@@ -62,16 +62,10 @@ class _LayoutPageState extends State<LayoutPage> {
       height: 30,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isSelected
-            ? ColorManager.secondary
-            : Colors.transparent,
+        color: isSelected ? ColorManager.secondary : Colors.transparent,
       ),
       alignment: Alignment.center,
-      child: SvgPicture.asset(
-        icon,
-        width: size,
-        height: size,
-      ),
+      child: SvgPicture.asset(icon, width: size, height: size),
     );
   }
 
@@ -99,10 +93,7 @@ class _LayoutPageState extends State<LayoutPage> {
 
           items: [
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.home,
-                isSelected: false,
-              ),
+              icon: circularIcon(icon: IconsAssets.home, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.homeActive,
                 isSelected: true,
@@ -111,10 +102,7 @@ class _LayoutPageState extends State<LayoutPage> {
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.category,
-                isSelected: false,
-              ),
+              icon: circularIcon(icon: IconsAssets.category, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.categoryActive,
                 isSelected: true,
@@ -123,10 +111,7 @@ class _LayoutPageState extends State<LayoutPage> {
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.fav,
-                isSelected: false,
-              ),
+              icon: circularIcon(icon: IconsAssets.fav, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.favActive,
                 isSelected: true,
@@ -135,10 +120,7 @@ class _LayoutPageState extends State<LayoutPage> {
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.profile,
-                isSelected: false,
-              ),
+              icon: circularIcon(icon: IconsAssets.profile, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.profileActive,
                 isSelected: true,

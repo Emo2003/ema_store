@@ -7,6 +7,7 @@ import 'package:ema_store/features/category/presentation/pages/products_page.dar
 import 'package:ema_store/features/home/presentation/pages/layout_page.dart';
 import 'package:ema_store/features/profile/presentation/pages/address.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
+import 'package:ema_store/features/wishlist/presentation/manager/wishlist_cubit.dart';
 import 'package:ema_store/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,13 +44,19 @@ class Routes {
 
       case AppRoutesNames.register:
         return MaterialPageRoute(builder: (_) => _wrapWithCanPop(SignupPage()));
+
       case AppRoutesNames.layout:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => getIt<CategoryCubit>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => getIt<CategoryCubit>()),
+              BlocProvider(create: (_) => getIt<HomeCubit>()),
+              BlocProvider(create: (_) => getIt<WishlistCubit>()),
+            ],
             child: _wrapWithCanPop(const LayoutPage()),
           ),
         );
+
       case AppRoutesNames.profile:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const ProfilePage()),
@@ -67,12 +74,9 @@ class Routes {
           builder: (_) => _wrapWithCanPop(
             MultiBlocProvider(
               providers: [
-                BlocProvider.value(
-                  value: getIt<CategoryCubit>(),
-                ),
-                BlocProvider.value(
-                  value: getIt<HomeCubit>(),
-                ),
+                BlocProvider.value(value: getIt<CategoryCubit>()),
+                BlocProvider.value(value: getIt<HomeCubit>()),
+                BlocProvider.value(value: getIt<WishlistCubit>()..getWishlist()),
               ],
               child: const ProductsPage(),
             ),
@@ -81,11 +85,9 @@ class Routes {
       case AppRoutesNames.productsDetails:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(
-            BlocProvider.value(
-              value: getIt<HomeCubit>(),
+                BlocProvider.value(value: getIt<HomeCubit>(),
               child: const ProductsDetails(),
-            ),
-          ),
+          )),
         );
       case AppRoutesNames.wishList:
         return MaterialPageRoute(
