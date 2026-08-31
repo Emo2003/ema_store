@@ -6,18 +6,16 @@ import 'package:ema_store/features/home/presentation/widget/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../category/presentation/manager/category_cubit.dart';
 import '../manager/home_cubit.dart';
 import '../manager/home_state.dart';
-import '../widget/home_appliance_item.dart';
+import '../widget/products_card.dart';
+import '../../../../core/routes/app_routes_names.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback onViewAllCategories;
 
-  const HomePage({
-    super.key,
-    required this.onViewAllCategories,
-  });
+  const HomePage({super.key, required this.onViewAllCategories});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,12 +27,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cubit = context.read<HomeCubit>();
 
-      cubit.getAllCategories();
-      cubit.getAllBrands();
-      cubit.getAllProducts();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeCubit = context.read<HomeCubit>();
+
+      homeCubit.getAllCategories();
+      homeCubit.getAllBrands();
+      homeCubit.getAllProducts();
     });
   }
 
@@ -61,13 +60,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: ColorManager.secondary,
       appBar: CustomAppBar(),
+
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
+
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 30.h),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
                 SearchField(
                   onChanged: (value) {
@@ -80,10 +83,10 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 30.verticalSpace,
-
                 if (!isSearching) ...[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                     children: [
                       Text(
                         'Categories',
@@ -93,16 +96,18 @@ class _HomePageState extends State<HomePage> {
                           color: ColorManager.black,
                         ),
                       ),
+
                       TextButton(
                         onPressed: widget.onViewAllCategories,
+
                         child: Text(
                           'View All',
                           style: TextStyle(
                             color: ColorManager.black,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            decorationColor: ColorManager.black,
                             decoration: TextDecoration.underline,
+                            decorationColor: ColorManager.black,
                             decorationThickness: 1.7,
                           ),
                         ),
@@ -114,12 +119,19 @@ class _HomePageState extends State<HomePage> {
 
                   BlocBuilder<HomeCubit, HomeState>(
                     buildWhen: (previous, current) {
-                      return current is HomeCategoriesSuccessState ||
-                          current is HomeCategoriesErrorState ||
-                          current is HomeCategoriesLoadingState;
+                      return current is HomeCategoriesLoadingState ||
+                          current is HomeCategoriesSuccessState ||
+                          current is HomeCategoriesErrorState;
                     },
+
                     builder: (context, state) {
-                      if (state is HomeCategoriesLoadingState) {
+                      final homeCubit = context.read<HomeCubit>();
+
+                      final categories = homeCubit.categories;
+
+                      // Loading only if there is no old data
+                      if (state is HomeCategoriesLoadingState &&
+                          categories.isEmpty) {
                         return _sectionLoader();
                       }
 
@@ -127,14 +139,27 @@ class _HomePageState extends State<HomePage> {
                         return _sectionError(state.message);
                       }
 
-                      final cubit = context.read<HomeCubit>();
+                      if (categories.isEmpty) {
+                        return const SizedBox();
+                      }
 
-                      return CategoriesItems(categories: cubit.categories);
+                      return CategoriesItems(
+                        categories: categories,
+
+                        onTap: (category) {
+                          final categoryCubit = context.read<CategoryCubit>();
+
+                          categoryCubit
+                            ..clearSelection()
+                            ..selectCategory(category.id!);
+                          Navigator.pushNamed(context, AppRoutesNames.products);
+                        },
+                      );
                     },
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                     children: [
                       Text(
                         'Brands',
@@ -144,16 +169,18 @@ class _HomePageState extends State<HomePage> {
                           color: ColorManager.black,
                         ),
                       ),
+
                       TextButton(
                         onPressed: () {},
+
                         child: Text(
                           'View All',
                           style: TextStyle(
                             color: ColorManager.black,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            decorationColor: ColorManager.black,
                             decoration: TextDecoration.underline,
+                            decorationColor: ColorManager.black,
                             decorationThickness: 1.7,
                           ),
                         ),
@@ -165,12 +192,17 @@ class _HomePageState extends State<HomePage> {
 
                   BlocBuilder<HomeCubit, HomeState>(
                     buildWhen: (previous, current) {
-                      return current is HomeBrandsSuccessState ||
-                          current is HomeBrandsErrorState ||
-                          current is HomeBrandsLoadingState;
+                      return current is HomeBrandsLoadingState ||
+                          current is HomeBrandsSuccessState ||
+                          current is HomeBrandsErrorState;
                     },
+
                     builder: (context, state) {
-                      if (state is HomeBrandsLoadingState) {
+                      final homeCubit = context.read<HomeCubit>();
+
+                      final brands = homeCubit.brands;
+
+                      if (state is HomeBrandsLoadingState && brands.isEmpty) {
                         return _sectionLoader();
                       }
 
@@ -178,9 +210,22 @@ class _HomePageState extends State<HomePage> {
                         return _sectionError(state.message);
                       }
 
-                      final cubit = context.read<HomeCubit>();
+                      if (brands.isEmpty) {
+                        return const SizedBox();
+                      }
 
-                      return BrandsItems(brands: cubit.brands);
+                      return BrandsItems(
+                        brands: brands,
+                        onTap: (brand) {
+                          final categoryCubit = context.read<CategoryCubit>();
+
+                          categoryCubit
+                            ..clearSelection()
+                            ..selectBrand(brand.id!);
+
+                          Navigator.pushNamed(context, AppRoutesNames.products);
+                        },
+                      );
                     },
                   ),
 
@@ -188,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                 ],
 
                 Text(
-                  "Home Appliances",
+                  'Home Appliances',
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
@@ -200,13 +245,20 @@ class _HomePageState extends State<HomePage> {
 
                 BlocBuilder<HomeCubit, HomeState>(
                   buildWhen: (previous, current) {
-                    return current is HomeProductsSuccessState ||
+                    return current is HomeProductsLoadingState ||
+                        current is HomeProductsSuccessState ||
                         current is HomeProductsErrorState ||
-                        current is HomeProductsLoadingState ||
                         current is HomeProductsSearchState;
                   },
+
                   builder: (context, state) {
-                    if (state is HomeProductsLoadingState) {
+                    final homeCubit = context.read<HomeCubit>();
+
+                    final products = isSearching
+                        ? homeCubit.searchResults
+                        : homeCubit.products;
+
+                    if (state is HomeProductsLoadingState && products.isEmpty) {
                       return _sectionLoader();
                     }
 
@@ -214,16 +266,11 @@ class _HomePageState extends State<HomePage> {
                       return _sectionError(state.message);
                     }
 
-                    final cubit = context.read<HomeCubit>();
-
-                    final products = isSearching
-                        ? cubit.searchResults
-                        : cubit.products;
-
                     if (products.isEmpty) {
                       return Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 30),
+                          padding: EdgeInsets.symmetric(vertical: 30.h),
+
                           child: Text(
                             'No products found',
                             style: TextStyle(
@@ -237,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
 
-                    return HomeApplianceItem(products: products);
+                    return ProductsCard(products: products);
                   },
                 ),
               ],

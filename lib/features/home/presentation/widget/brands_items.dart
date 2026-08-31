@@ -6,11 +6,9 @@ import '../../../../core/resources/color_manager.dart';
 
 class BrandsItems extends StatelessWidget {
   final List<Brands> brands;
+  final Function(Brands) onTap;
 
-  const BrandsItems({
-    super.key,
-    required this.brands,
-  });
+  const BrandsItems({super.key, required this.brands, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +24,28 @@ class BrandsItems extends StatelessWidget {
         ),
         itemCount: brands.length,
         itemBuilder: (context, index) {
-          return Container(
-            width: 70.w,
-            height: 70.h,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: ColorManager.primary.withAlpha(50),
-                  blurRadius: 2.5.r,
-                  offset:  Offset(5.w, 0),
+          final brand = brands[index];
+          return InkWell(
+            onTap: () => onTap(brand),
+            child: Container(
+              width: 70.w,
+              height: 70.h,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorManager.primary.withAlpha(50),
+                    blurRadius: 2.5.r,
+                    offset: Offset(5.w, 0),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(25.r),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25.r),
+                child: Image.network(
+                  brands[index].image ?? "",
+                  fit: BoxFit.cover,
                 ),
-              ],
-              borderRadius: BorderRadius.circular(25.r),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25.r),
-              child: Image.network(
-                brands[index].image??"",
-                fit: BoxFit.cover,
               ),
             ),
           );

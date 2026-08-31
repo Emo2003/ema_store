@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routes/app_routes_names.dart';
+import '../manager/category_cubit.dart';
+
 class CategoryPage extends StatelessWidget {
   const CategoryPage({super.key});
 
@@ -54,15 +57,27 @@ class CategoryPage extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.0,
-                          mainAxisSpacing: 15.0,
-                          crossAxisSpacing: 15.0,
-                        ),
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0,
+                      mainAxisSpacing: 15.0,
+                      crossAxisSpacing: 15.0,
+                    ),
                     itemBuilder: (context, index) {
                       final category = categories[index];
-                      return CategoriesContainer(categories: category);
+                      return CategoriesContainer(
+                        categories: category,
+                        onTap: () {
+                          context.read<CategoryCubit>()
+                            ..clearSelection()
+                            ..selectCategory(category.id!);
+
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutesNames.products,
+                          );
+                        },
+                      );
                     },
                     itemCount: categories.length,
                   ),

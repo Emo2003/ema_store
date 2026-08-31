@@ -1,14 +1,19 @@
+import 'package:ema_store/core/config/get_config.dart';
 import 'package:ema_store/core/routes/app_routes_names.dart';
+import 'package:ema_store/features/category/presentation/manager/category_cubit.dart';
 import 'package:ema_store/features/category/presentation/pages/category_page.dart';
 import 'package:ema_store/features/category/presentation/pages/products_details.dart';
 import 'package:ema_store/features/category/presentation/pages/products_page.dart';
 import 'package:ema_store/features/home/presentation/pages/layout_page.dart';
 import 'package:ema_store/features/profile/presentation/pages/address.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
+import 'package:ema_store/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/signup_page.dart';
+import '../../features/home/presentation/manager/home_cubit.dart';
 
 class Routes {
   static Widget _wrapWithCanPop(Widget page) {
@@ -40,7 +45,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => _wrapWithCanPop(SignupPage()));
       case AppRoutesNames.layout:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const LayoutPage()),
+          builder: (_) => BlocProvider(
+            create: (_) => getIt<CategoryCubit>(),
+            child: _wrapWithCanPop(const LayoutPage()),
+          ),
         );
       case AppRoutesNames.profile:
         return MaterialPageRoute(
@@ -56,11 +64,32 @@ class Routes {
         );
       case AppRoutesNames.products:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const ProductsPage()),
+          builder: (_) => _wrapWithCanPop(
+            MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: getIt<CategoryCubit>(),
+                ),
+                BlocProvider.value(
+                  value: getIt<HomeCubit>(),
+                ),
+              ],
+              child: const ProductsPage(),
+            ),
+          ),
         );
       case AppRoutesNames.productsDetails:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const ProductsDetails()),
+          builder: (_) => _wrapWithCanPop(
+            BlocProvider.value(
+              value: getIt<HomeCubit>(),
+              child: const ProductsDetails(),
+            ),
+          ),
+        );
+      case AppRoutesNames.wishList:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const WishlistPage()),
         );
 
       default:
