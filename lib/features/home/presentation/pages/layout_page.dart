@@ -1,5 +1,7 @@
 import 'package:ema_store/core/config/get_config.dart';
 import 'package:ema_store/core/resources/assets_manager.dart';
+import 'package:ema_store/features/category/presentation/pages/category_page.dart';
+import 'package:ema_store/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,15 +22,36 @@ class LayoutPage extends StatefulWidget {
 class _LayoutPageState extends State<LayoutPage> {
   int _selectedIndex = 0;
 
-  final List<Widget> tabs = [
-    BlocProvider(
-      create: (context) => getIt<HomeCubit>(),
-      child: const HomePage(),
-    ),
-    const Center(child: Text('Category Page', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Fav Page', style: TextStyle(fontSize: 24))),
-    const ProfilePage(),
-  ];
+  late final List<Widget> tabs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    tabs = [
+      BlocProvider(
+        create: (context) => getIt<HomeCubit>(),
+        child: HomePage(
+          onViewAllCategories: () {
+            setState(() {
+              _selectedIndex = 1;
+            });
+          },
+        ),
+      ),
+
+      BlocProvider(
+        create: (_) => getIt<HomeCubit>()..getAllCategories(),
+        child: const CategoryPage(),
+      ),
+      const Center(child: Text('Fav Page', style: TextStyle(fontSize: 24))),
+
+      BlocProvider(
+        create: (context) => getIt<ProfileCubit>(),
+        child: const ProfilePage(),
+      ),
+    ];
+  }
 
   Widget circularIcon({
     required String icon,
@@ -51,6 +74,7 @@ class _LayoutPageState extends State<LayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.secondary,
+
       body: tabs[_selectedIndex],
 
       bottomNavigationBar: ClipRRect(
@@ -61,62 +85,45 @@ class _LayoutPageState extends State<LayoutPage> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: ColorManager.primary,
+
           currentIndex: _selectedIndex,
+
           showSelectedLabels: false,
           showUnselectedLabels: false,
+
           items: [
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.home,
-                isSelected: false,
-                size: 20,
-              ),
+              icon: circularIcon(icon: IconsAssets.home, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.homeActive,
                 isSelected: true,
-                size: 20,
               ),
               label: '',
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.category,
-                isSelected: false,
-                size: 20,
-              ),
+              icon: circularIcon(icon: IconsAssets.category, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.categoryActive,
                 isSelected: true,
-                size: 20,
               ),
               label: '',
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.fav,
-                isSelected: false,
-                size: 20,
-              ),
+              icon: circularIcon(icon: IconsAssets.fav, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.favActive,
                 isSelected: true,
-                size: 20,
               ),
               label: '',
             ),
 
             BottomNavigationBarItem(
-              icon: circularIcon(
-                icon: IconsAssets.profile,
-                isSelected: false,
-                size: 20,
-              ),
+              icon: circularIcon(icon: IconsAssets.profile, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.profileActive,
                 isSelected: true,
-                size: 20,
               ),
               label: '',
             ),

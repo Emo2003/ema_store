@@ -1,5 +1,9 @@
 import 'package:ema_store/core/routes/app_routes_names.dart';
+import 'package:ema_store/features/category/presentation/pages/category_page.dart';
+import 'package:ema_store/features/category/presentation/pages/products_details.dart';
+import 'package:ema_store/features/category/presentation/pages/products_page.dart';
 import 'package:ema_store/features/home/presentation/pages/layout_page.dart';
+import 'package:ema_store/features/profile/presentation/pages/address.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +45,22 @@ class Routes {
       case AppRoutesNames.profile:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const ProfilePage()),
+        );
+      case AppRoutesNames.address:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const Address()),
+        );
+      case AppRoutesNames.categories:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const CategoryPage()),
+        );
+      case AppRoutesNames.products:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const ProductsPage()),
+        );
+      case AppRoutesNames.productsDetails:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const ProductsDetails()),
         );
 
       default:

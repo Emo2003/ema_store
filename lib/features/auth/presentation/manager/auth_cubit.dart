@@ -1,3 +1,4 @@
+import 'package:ema_store/core/services/storage_service.dart';
 import 'package:ema_store/features/auth/data/repositories/auth_repo.dart';
 import 'package:ema_store/features/auth/presentation/manager/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       user = res.user;
+      StorageService.saveToken(res.token ?? '');
       emit(AuthSuccess(message: 'Login successful', user: user));
     } catch (e) {
       emit(AuthFailure(error: e.toString()));
@@ -53,11 +55,21 @@ class AuthCubit extends Cubit<AuthState> {
         phone: phoneController.text.trim(),
         rePassword: confirmPasswordController.text.trim(),
       );
-    user = res.user;
+      user = res.user;
+      StorageService.saveToken(res.token ?? '');
       emit(AuthSuccess(message: 'Create Account  successful', user: user));
     } catch (e) {
       emit(AuthFailure(error: e.toString()));
     }
+  }
+  void updateUser(User newUser) {
+    user = newUser;
+    emit(AuthUpdateUserState());
+  }
+
+
+  Future<void> logout() async {
+    await StorageService.clearAll();
   }
 
   @override

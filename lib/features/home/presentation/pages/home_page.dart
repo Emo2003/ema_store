@@ -12,7 +12,12 @@ import '../manager/home_state.dart';
 import '../widget/home_appliance_item.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final VoidCallback onViewAllCategories;
+
+  const HomePage({
+    super.key,
+    required this.onViewAllCategories,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -89,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: widget.onViewAllCategories,
                         child: Text(
                           'View All',
                           style: TextStyle(

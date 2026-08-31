@@ -14,25 +14,34 @@ class AuthInterceptor extends Interceptor {
     final token = await StorageService.getToken();
 
     if (token != null && token.isNotEmpty) {
-      options.headers['Authorization'] = 'Bearer $token';
+      options.headers['token'] = token;
     }
 
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 403 || err.response?.statusCode == 401) {
+  void onError(
+      DioException err,
+      ErrorInterceptorHandler handler,
+      ) async {
+    if (err.response?.statusCode == 401 ||
+        err.response?.statusCode == 403) {
       final responseData = err.response?.data;
-      final message = responseData is Map ? responseData['message'] : null;
+
+      final message =
+      responseData is Map ? responseData['message'] : null;
+
       if (message == 'Invalid or expired token') {
         await StorageService.clearAll();
+
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
           AppRoutesNames.login,
               (route) => false,
         );
       }
     }
-    super.onError(err, handler);
+
+    handler.next(err);
   }
 }
