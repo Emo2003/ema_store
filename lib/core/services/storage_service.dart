@@ -22,9 +22,8 @@ class StorageService {
     token = value;
     return value;
   }
-  static Future<void> saveUser(User value) async {
-    user = value;
-    final jsonString = jsonEncode(value.toJson());
+  static Future<void> saveUser(User user) async {
+    final jsonString = jsonEncode(user.toJson());
     await _storage.write(key: 'user', value: jsonString);
   }
 

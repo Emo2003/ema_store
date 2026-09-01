@@ -17,7 +17,7 @@ class CategoriesItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170.h,
+      height: 190.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) => 10.horizontalSpace,
@@ -29,7 +29,7 @@ class CategoriesItems extends StatelessWidget {
             onTap: () => onTap(category),
             borderRadius: BorderRadius.circular(25.r),
             child: SizedBox(
-              width: 120.w,
+              width: 130.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -57,15 +57,17 @@ class CategoriesItems extends StatelessWidget {
                     ),
                   ),
                   10.verticalSpace,
-                  Text(
-                    category.name ?? "",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      color: ColorManager.primary,
-                      fontWeight: FontWeight.w600,
+                  Flexible(
+                    child: Text(
+                      category.name ?? "",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        color: ColorManager.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],

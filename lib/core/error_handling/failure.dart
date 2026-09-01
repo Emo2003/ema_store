@@ -62,41 +62,57 @@ class ServerFailure extends Failure {
         throw UnimplementedError();
     }
   }
-
-  factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
+  factory ServerFailure.fromResponse(
+      int? statusCode,
+      dynamic response,
+      ) {
     if (statusCode == 400 ||
         statusCode == 401 ||
         statusCode == 403 ||
+        statusCode == 409 ||
         statusCode == 422) {
       final errorModel = ApiErrorModel.fromJson(response);
-      return ServerFailure(
-        errorModel.message ?? 'Authentication or request error.',
-      );
-    } else if (statusCode == 404) {
+
+      final errorMessage =
+          errorModel.errors?.msg ??
+              errorModel.message ??
+              'Something went wrong.';
+
+      return ServerFailure(errorMessage);
+    }
+
+    if (statusCode == 404) {
       return ServerFailure(
         'Your request was not found. Please try again later.',
       );
-    } else if (statusCode == 405) {
-      return ServerFailure('Method not allowed.');
-    } else if (statusCode == 409) {
-      final errorModel = ApiErrorModel.fromJson(response);
+    }
 
-      return ServerFailure(
-        errorModel.message ??
-            'This account already exists. Please use another email or phone number.',
-      );
-    } else if (statusCode == 429) {
+    if (statusCode == 405) {
+      return ServerFailure('Method not allowed.');
+    }
+
+    if (statusCode == 429) {
       return ServerFailure(
         'Too many requests. Please slow down and try again later.',
       );
-    } else if (statusCode == 500) {
-      return ServerFailure('Internal server error. Please try again later.');
-    } else if (statusCode == 502 || statusCode == 503 || statusCode == 504) {
+    }
+
+    if (statusCode == 500) {
+      return ServerFailure(
+        'Internal server error. Please try again later.',
+      );
+    }
+
+    if (statusCode == 502 ||
+        statusCode == 503 ||
+        statusCode == 504) {
       return ServerFailure(
         'Server is currently unavailable. Please try again later.',
       );
-    } else {
-      return ServerFailure('Oops! Something went wrong, please try again.');
     }
+
+    return ServerFailure(
+      'Oops! Something went wrong, please try again.',
+    );
   }
 }

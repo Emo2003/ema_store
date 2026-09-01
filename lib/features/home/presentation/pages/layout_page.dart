@@ -6,6 +6,7 @@ import 'package:ema_store/features/profile/presentation/manager/profile_cubit.da
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
 import 'package:ema_store/features/wishlist/presentation/pages/wishlist_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,77 +74,88 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManager.secondary,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: ColorManager.secondary,
 
-      body: tabs[_selectedIndex],
+        body: tabs[_selectedIndex],
 
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25.r),
-          topRight: Radius.circular(25.r),
-        ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.r),
+            topRight: Radius.circular(25.r),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: ColorManager.primary,
+            currentIndex: _selectedIndex,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
 
-          backgroundColor: ColorManager.primary,
-
-          currentIndex: _selectedIndex,
-
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-
-          items: [
-            BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.home, isSelected: false),
-              activeIcon: circularIcon(
-                icon: IconsAssets.homeActive,
-                isSelected: true,
+            items: [
+              BottomNavigationBarItem(
+                icon: circularIcon(icon: IconsAssets.home, isSelected: false),
+                activeIcon: circularIcon(
+                  icon: IconsAssets.homeActive,
+                  isSelected: true,
+                ),
+                label: '',
               ),
-              label: '',
-            ),
 
-            BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.category, isSelected: false),
-              activeIcon: circularIcon(
-                icon: IconsAssets.categoryActive,
-                isSelected: true,
+              BottomNavigationBarItem(
+                icon: circularIcon(
+                  icon: IconsAssets.category,
+                  isSelected: false,
+                ),
+                activeIcon: circularIcon(
+                  icon: IconsAssets.categoryActive,
+                  isSelected: true,
+                ),
+                label: '',
               ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.cart, isSelected: false),
-              activeIcon: circularIcon(
-                icon: IconsAssets.cartActive,
-                isSelected: true,
+              BottomNavigationBarItem(
+                icon: circularIcon(icon: IconsAssets.cart, isSelected: false),
+                activeIcon: circularIcon(
+                  icon: IconsAssets.cartActive,
+                  isSelected: true,
+                ),
+                label: '',
               ),
-              label: '',
-            ),
 
-            BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.fav, isSelected: false),
-              activeIcon: circularIcon(
-                icon: IconsAssets.favActive,
-                isSelected: true,
+              BottomNavigationBarItem(
+                icon: circularIcon(icon: IconsAssets.fav, isSelected: false),
+                activeIcon: circularIcon(
+                  icon: IconsAssets.favActive,
+                  isSelected: true,
+                ),
+                label: '',
               ),
-              label: '',
-            ),
 
-            BottomNavigationBarItem(
-              icon: circularIcon(icon: IconsAssets.profile, isSelected: false),
-              activeIcon: circularIcon(
-                icon: IconsAssets.profileActive,
-                isSelected: true,
+              BottomNavigationBarItem(
+                icon: circularIcon(
+                  icon: IconsAssets.profile,
+                  isSelected: false,
+                ),
+                activeIcon: circularIcon(
+                  icon: IconsAssets.profileActive,
+                  isSelected: true,
+                ),
+                label: '',
               ),
-              label: '',
-            ),
-          ],
+            ],
 
-          onTap: (value) {
-            setState(() {
-              _selectedIndex = value;
-            });
-          },
+            onTap: (value) {
+              setState(() {
+                _selectedIndex = value;
+              });
+            },
+          ),
         ),
       ),
     );

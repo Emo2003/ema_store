@@ -69,6 +69,7 @@ class _UpdateProfileBottomSheetState extends State<UpdateProfileBottomSheet> {
               }
               if (state is ProfileUpdateErrorState) {
                 CustomLoadingDialog.hide(context);
+                Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.red,
@@ -176,11 +177,11 @@ class _UpdateProfileBottomSheetState extends State<UpdateProfileBottomSheet> {
                       height: 52.h,
                       child: ElevatedButton(
                         onPressed: () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                cubit.updateProfile();
-                              },
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          cubit.updateProfile(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorManager.black,
                           foregroundColor: ColorManager.white,
@@ -190,16 +191,15 @@ class _UpdateProfileBottomSheetState extends State<UpdateProfileBottomSheet> {
                             borderRadius: BorderRadius.circular(15.r),
                           ),
                         ),
-                        child:Text(
-                                'Save Changes',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                        child: Text(
+                          'Save Changes',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
-
                   ],
                 ),
               );

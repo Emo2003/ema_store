@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/error_handling/failure.dart';
+import '../../../../core/services/storage_service.dart';
+import '../../../auth/data/models/User.dart';
+import '../../../auth/presentation/manager/auth_cubit.dart';
 import '../../data/models/Data.dart';
 
 @injectable
@@ -22,6 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController userPhoneController = TextEditingController();
 
   List<Data> addresses = [];
+  User? user;
 
   Future<void> addAddress() async {
     emit(ProfileAddLoadingState());
@@ -63,7 +68,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateProfile() async {
+  Future<void> updateProfile(BuildContext context) async {
     emit(ProfileUpdateLoadingState());
 
     try {
@@ -73,9 +78,19 @@ class ProfileCubit extends Cubit<ProfileState> {
         phone: userPhoneController.text.trim(),
       );
 
+      final authCubit = context.read<AuthCubit>();
+
+      authCubit.updateUser(res);
+
+      await StorageService.saveUser(res);
+
       emit(ProfileUpdateSuccessState(user: res));
     } catch (e) {
-      emit(ProfileUpdateErrorState(message: e.toString()));
+      if (e is ServerFailure) {
+        emit(ProfileUpdateErrorState(message: e.message));
+      } else {
+        emit(ProfileUpdateErrorState(message: e.toString()));
+      }
     }
   }
 

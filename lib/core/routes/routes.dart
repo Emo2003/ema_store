@@ -104,6 +104,10 @@ class Routes {
             ),
           ),
         );
+      case AppRoutesNames.home:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(LayoutPage()),
+        );
       case AppRoutesNames.wishList:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const WishlistPage()),
