@@ -22,4 +22,5 @@ abstract class IconsAssets {
   static const String categoryActive = "$iconsPath/category_active.svg";
   static const String category = "$iconsPath/category.svg";
   static const String cart = "$iconsPath/icon _shopping cart_.svg";
+  static const String cartActive = "$iconsPath/icon _shopping cart_active.svg";
 }

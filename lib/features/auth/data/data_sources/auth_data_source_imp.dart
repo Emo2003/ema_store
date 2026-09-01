@@ -39,4 +39,36 @@ class AuthDataSourceImp implements AuthDataSource {
       },
     );
   }
+
+  @override
+  Future<Response<dynamic>> forgetPassword({required String email}) {
+    return networkService.dio.post(
+      "v1/auth/forgotPasswords",
+      data: {"email": email},
+    );
+  }
+
+  @override
+  Future<Response<dynamic>> resetPassword({
+    required String email,
+    required String newPassword,
+    required String rePassword,
+  }) {
+    return networkService.dio.put(
+      "v1/auth/resetPassword",
+      data: {
+        "email": email,
+        "newPassword": newPassword,
+        "rePassword": rePassword,
+      },
+    );
+  }
+
+  @override
+  Future<Response<dynamic>> verifyCode({required String code}) {
+    return networkService.dio.post(
+      "v1/auth/verifyResetCode",
+      data: {"resetCode": code},
+    );
+  }
 }

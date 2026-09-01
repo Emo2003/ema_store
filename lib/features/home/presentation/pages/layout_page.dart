@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../cart/presentation/pages/cart_page.dart';
 import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
 import '../manager/home_cubit.dart';
 import 'home_page.dart';
@@ -41,6 +42,7 @@ class _LayoutPageState extends State<LayoutPage> {
         create: (_) => getIt<HomeCubit>()..getAllCategories(),
         child: const CategoryPage(),
       ),
+      const CartPage(),
       BlocProvider(
         create: (_) => getIt<WishlistCubit>(),
         child: const WishlistPage(),
@@ -105,6 +107,14 @@ class _LayoutPageState extends State<LayoutPage> {
               icon: circularIcon(icon: IconsAssets.category, isSelected: false),
               activeIcon: circularIcon(
                 icon: IconsAssets.categoryActive,
+                isSelected: true,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: circularIcon(icon: IconsAssets.cart, isSelected: false),
+              activeIcon: circularIcon(
+                icon: IconsAssets.cartActive,
                 isSelected: true,
               ),
               label: '',

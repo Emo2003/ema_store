@@ -1,5 +1,11 @@
 import 'package:ema_store/core/config/get_config.dart';
 import 'package:ema_store/core/routes/app_routes_names.dart';
+import 'package:ema_store/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:ema_store/features/auth/presentation/pages/receive_code_page.dart';
+import 'package:ema_store/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:ema_store/features/cart/presentation/pages/cart_page.dart';
+import 'package:ema_store/features/cart/presentation/pages/check_out_page.dart';
+import 'package:ema_store/features/cart/presentation/pages/place_order_page.dart';
 import 'package:ema_store/features/category/presentation/manager/category_cubit.dart';
 import 'package:ema_store/features/category/presentation/pages/category_page.dart';
 import 'package:ema_store/features/category/presentation/pages/products_details.dart';
@@ -76,7 +82,9 @@ class Routes {
               providers: [
                 BlocProvider.value(value: getIt<CategoryCubit>()),
                 BlocProvider.value(value: getIt<HomeCubit>()),
-                BlocProvider.value(value: getIt<WishlistCubit>()..getWishlist()),
+                BlocProvider.value(
+                  value: getIt<WishlistCubit>()..getWishlist(),
+                ),
               ],
               child: const ProductsPage(),
             ),
@@ -85,15 +93,40 @@ class Routes {
       case AppRoutesNames.productsDetails:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(
-                BlocProvider.value(value: getIt<HomeCubit>(),
+            BlocProvider.value(
+              value: getIt<HomeCubit>(),
               child: const ProductsDetails(),
-          )),
+            ),
+          ),
         );
       case AppRoutesNames.wishList:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const WishlistPage()),
         );
-
+      case AppRoutesNames.cart:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const CartPage()),
+        );
+      case AppRoutesNames.checkout:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const CheckOutPage()),
+        );
+      case AppRoutesNames.placeOrders:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const PlaceOrderPage()),
+        );
+      case AppRoutesNames.forgetPassword:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const ForgetPasswordPage()),
+        );
+      case AppRoutesNames.receiveCode:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const ReceiveCodePage()),
+        );
+      case AppRoutesNames.resetPassword:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(const ResetPasswordPage()),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const Placeholder()),

@@ -36,16 +36,19 @@ class WishlistCubit extends Cubit<WishlistState> {
       await wishlistRepo.addToWishlist(productId);
       await getWishlist();
     } catch (e) {
-      emit(
-        WishlistAddErrorState(
-          message: e.toString(),
-        ),
-      );
+      emit(WishlistAddErrorState(message: e.toString()));
     }
   }
+
   Future<void> removeFromWishlist(String productId) async {
     try {
       await wishlistRepo.removeFromWishlist(productId);
+      emit(
+        WishlistRemoveSuccessState(
+          message: "Product removed from wishlist successfully",
+          productId: productId,
+        ),
+      );
       await getWishlist();
     } catch (e) {
       emit(
