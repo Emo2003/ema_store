@@ -85,7 +85,27 @@ class _WishlistPageState extends State<WishlistPage> {
               return ListView.separated(
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return WishlistCard(wishlistProducts: products[index]);
+                  return Dismissible(key: ValueKey(products[index].id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: BoxDecoration(
+                          color: ColorManager.error,
+                          borderRadius: BorderRadius.circular(22.r),
+                        ),
+                        child:  Icon(
+                          Icons.delete_outline_rounded,
+                          color: ColorManager.white,
+                          size: 30.h,
+                        ),
+                      ),
+                      onDismissed: (_) {
+                        context.read<WishlistCubit>().removeFromWishlist(
+                              products[index].id ?? '',
+                            );
+                      },
+                  child: WishlistCard(wishlistProducts: products[index]));
                 },
                 separatorBuilder: (_, _) => 10.verticalSpace,
               );

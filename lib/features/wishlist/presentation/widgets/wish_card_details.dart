@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widget/custom_outline_btn.dart';
 import '../../data/models/WishListProducts.dart';
-import 'delete_button.dart';
-
 class WishCardDetails extends StatelessWidget {
   final VoidCallback? onTap;
   final Wishlistproducts product;
@@ -28,7 +26,7 @@ class WishCardDetails extends StatelessWidget {
             Expanded(
               child: Text(
                 product.title ?? '',
-                maxLines: 2,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 16.sp,
@@ -37,10 +35,6 @@ class WishCardDetails extends StatelessWidget {
                 ),
               ),
             ),
-
-            5.horizontalSpace,
-
-            DeleteButton(onTap: onTap),
           ],
         ),
 

@@ -34,13 +34,9 @@ class _LoginPageState extends State<LoginPage> {
         child: SafeArea(
           child: BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) async {
-
               if (state is AuthLoading) {
                 CustomLoadingDialog.show(context);
-              }
-
-              else if (state is AuthSuccess) {
-
+              } else if (state is AuthSuccess) {
                 CustomLoadingDialog.hide(context);
 
                 await CustomSuccessDialog.show(
@@ -54,21 +50,16 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutesNames.layout,
-                      (route) => false,
+                  (route) => false,
                 );
-              }
-
-              else if (state is AuthFailure) {
-
+              } else if (state is AuthFailure) {
                 CustomLoadingDialog.hide(context);
 
                 if (!context.mounted) return;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.error)));
               }
             },
 
@@ -76,9 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               final cubit = AuthCubit.get(context);
 
               return Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.w,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
 
                 child: Form(
                   key: _formKey,
@@ -88,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                     spacing: 10.h,
 
                     children: [
-
                       Center(
                         child: Image.asset(
                           ImageAssets.logo,
@@ -132,7 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.centerRight,
 
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutesNames.forgetPassword,
+                            );
+                          },
 
                           child: Text(
                             "Forgot Password?",
@@ -151,16 +144,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: state is AuthLoading
                             ? null
                             : () {
-                          if (_formKey.currentState!
-                              .validate()) {
-                            cubit.login();
-                          }
-                        },
+                                if (_formKey.currentState!.validate()) {
+                                  cubit.login();
+                                }
+                              },
                       ),
 
                       Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
 
                         children: [
                           Text(
@@ -185,10 +176,8 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(
                                 color: ColorManager.primary,
                                 fontSize: 17.sp,
-                                decoration:
-                                TextDecoration.underline,
-                                decorationColor:
-                                ColorManager.primary,
+                                decoration: TextDecoration.underline,
+                                decorationColor: ColorManager.primary,
                                 decorationThickness: 1.2,
                               ),
                             ),

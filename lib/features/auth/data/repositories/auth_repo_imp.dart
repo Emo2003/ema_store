@@ -59,4 +59,51 @@ class AuthRepoImp implements AuthRepo {
       throw 'An unexpected error occurred. Please try again.';
     }
   }
+
+  @override
+  Future<AuthResponse> forgetPassword({required String email}) async {
+    try {
+      var res = await dataSource.forgetPassword(email: email);
+      AuthResponse data = AuthResponse.fromJson(res.data);
+      return data;
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e).message;
+    } catch (e) {
+      throw 'An unexpected error occurred. Please try again.';
+    }
+  }
+
+  @override
+  Future<AuthResponse> resetPassword({
+    required String email,
+    required String newPassword,
+    required String rePassword,
+  }) async {
+    try {
+      var res = await dataSource.resetPassword(
+        email: email,
+        newPassword: newPassword,
+        rePassword: rePassword,
+      );
+      AuthResponse data = AuthResponse.fromJson(res.data);
+      return data;
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e).message;
+    } catch (e) {
+      throw 'An unexpected error occurred. Please try again.';
+    }
+  }
+
+  @override
+  Future<AuthResponse> verifyCode({required String code}) async {
+    try {
+      var res = await dataSource.verifyCode(code: code);
+      AuthResponse data = AuthResponse.fromJson(res.data);
+      return data;
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e).message;
+    } catch (e) {
+      throw 'An unexpected error occurred. Please try again.';
+    }
+  }
 }

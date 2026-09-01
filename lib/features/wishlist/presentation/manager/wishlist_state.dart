@@ -20,8 +20,9 @@ class WishlistErrorState extends WishlistState {
 
 class WishlistRemoveSuccessState extends WishlistState {
   final String message;
+  final String productId;
 
-  WishlistRemoveSuccessState({required this.message});
+  WishlistRemoveSuccessState({required this.message, required this.productId});
 }
 
 class WishlistAddErrorState extends WishlistState {
