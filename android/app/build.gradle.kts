@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.ema_store"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

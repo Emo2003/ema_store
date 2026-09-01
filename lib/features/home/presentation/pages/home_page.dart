@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../category/presentation/manager/category_cubit.dart';
+import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
 import '../manager/home_cubit.dart';
 import '../manager/home_state.dart';
 import '../widget/products_card.dart';
@@ -30,10 +31,13 @@ class _HomePageState extends State<HomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final homeCubit = context.read<HomeCubit>();
+      final wishlistCubit = context.read<WishlistCubit>();
 
       homeCubit.getAllCategories();
       homeCubit.getAllBrands();
       homeCubit.getAllProducts();
+
+      wishlistCubit.getWishlist();
     });
   }
 
