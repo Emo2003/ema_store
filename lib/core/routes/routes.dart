@@ -93,8 +93,13 @@ class Routes {
       case AppRoutesNames.productsDetails:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(
-            BlocProvider.value(
-              value: getIt<HomeCubit>(),
+            MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: getIt<HomeCubit>()),
+                BlocProvider.value(
+                  value: getIt<WishlistCubit>()..getWishlist(),
+                ),
+              ],
               child: const ProductsDetails(),
             ),
           ),

@@ -10,6 +10,8 @@ class ProductsDetailsCard extends StatelessWidget {
   final double productPrice;
   final VoidCallback? onIncrement;
   final VoidCallback? onDecrement;
+  final bool isFavorite;
+  final VoidCallback? onFavoritePressed;
 
   const ProductsDetailsCard({
     super.key,
@@ -18,6 +20,8 @@ class ProductsDetailsCard extends StatelessWidget {
     required this.productPrice,
     this.onIncrement,
     this.onDecrement,
+    this.isFavorite = false,
+    this.onFavoritePressed,
   });
 
   @override

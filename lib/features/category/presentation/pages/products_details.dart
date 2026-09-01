@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../home/presentation/manager/home_cubit.dart';
+import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
+import '../../../wishlist/presentation/manager/wishlist_state.dart';
 import '../widgets/footer_card.dart';
 import '../widgets/products_details_card.dart';
 
@@ -20,45 +22,91 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   num quantity = 1;
 
   @override
+  void initState() {
+    super.initState();
+
+    // Load wishlist when opening product details
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final wishlistCubit = context.read<WishlistCubit>();
+
+      if (wishlistCubit.state is! WishlistSuccessState) {
+        wishlistCubit.getWishlist();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cubit = context.read<HomeCubit>();
-    final product = cubit.selectedProduct;
+    final homeCubit = context.read<HomeCubit>();
+    final wishlistCubit = context.read<WishlistCubit>();
+
+    final product = homeCubit.selectedProduct;
 
     if (product == null) {
-      return const Scaffold(body: Center(child: Text('Product not found')));
+      return const Scaffold(
+        body: Center(
+          child: Text('Product not found'),
+        ),
+      );
     }
 
-    final num productPrice = product.priceAfterDiscount ?? product.price ?? 0.0;
+    final num productPrice =
+        product.priceAfterDiscount ?? product.price ?? 0.0;
+
     final num totalPrice = quantity * productPrice;
 
     return Scaffold(
       backgroundColor: ColorManager.secondary,
-      body: Column(
-        children: [
-          ProductImage(product: product),
-          20.verticalSpace,
-          ProductSmallImages(product: product),
-          20.verticalSpace,
-          ProductsDetailsCard(
-            product: product,
-            quantity: quantity.toInt(),
-            productPrice: productPrice.toDouble(),
-            onIncrement: () {
-              setState(() {
-                quantity++;
-              });
-            },
-            onDecrement: () {
-              if (quantity > 1) {
-                setState(() {
-                  quantity--;
-                });
-              }
-            },
-          ),
-          Spacer(),
-          FooterCard(totalPrice: totalPrice),
-        ],
+      body: BlocBuilder<WishlistCubit, WishlistState>(
+        builder: (context, wishlistState) {
+          final isFavorite = wishlistCubit.isInWishlist(
+            product.id!,
+          );
+
+          return Column(
+            children: [
+              ProductImage(product: product),
+
+              20.verticalSpace,
+
+              ProductSmallImages(product: product),
+
+              20.verticalSpace,
+
+              ProductsDetailsCard(
+                product: product,
+                quantity: quantity.toInt(),
+                productPrice: productPrice.toDouble(),
+                isFavorite: isFavorite,
+                onFavoritePressed: () {
+                  if (isFavorite) {
+                    wishlistCubit.removeFromWishlist(product.id!);
+                  } else {
+                    wishlistCubit.addToWishlist(product.id!);
+                  }
+                },
+                onIncrement: () {
+                  setState(() {
+                    quantity++;
+                  });
+                },
+                onDecrement: () {
+                  if (quantity > 1) {
+                    setState(() {
+                      quantity--;
+                    });
+                  }
+                },
+              ),
+
+              const Spacer(),
+
+              FooterCard(
+                totalPrice: totalPrice,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
