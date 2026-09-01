@@ -71,3 +71,4 @@ class AuthResetPasswordValidationFailure extends AuthState {
 
   AuthResetPasswordValidationFailure({required this.error});
 }
+class AuthLoggedOut extends AuthState {}

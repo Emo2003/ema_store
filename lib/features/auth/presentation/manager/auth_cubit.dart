@@ -42,6 +42,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       user = res.user;
 
+      if (user != null) {
+        await StorageService.saveUser(user!);
+      }
+
       if (res.token != null) {
         await StorageService.saveToken(res.token!);
       }
@@ -66,6 +70,10 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       user = res.user;
+
+      if (user != null) {
+        await StorageService.saveUser(user!);
+      }
 
       if (res.token != null) {
         await StorageService.saveToken(res.token!);
@@ -164,11 +172,40 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     await StorageService.clearAll();
+
+    user = null;
+
+    emit(AuthLoggedOut());
   }
   Future<bool> isLoggedIn() async {
     final token = await StorageService.getToken();
 
     return token != null && token.isNotEmpty;
+  }
+
+  Future<void> restoreUser() async {
+    final token = await StorageService.getToken();
+
+    if (token == null || token.isEmpty) {
+      emit(AuthLoggedOut());
+      return;
+    }
+
+    final savedUser = await StorageService.getUser();
+
+    if (savedUser == null) {
+      emit(AuthLoggedOut());
+      return;
+    }
+
+    user = savedUser;
+
+    emit(
+      AuthSuccess(
+        message: 'User restored',
+        user: user,
+      ),
+    );
   }
 
   @override

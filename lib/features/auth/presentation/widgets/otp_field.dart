@@ -6,8 +6,15 @@ import '../../../../core/resources/color_manager.dart';
 
 class OtpField extends StatelessWidget {
   final TextEditingController? controller;
+  final FocusNode focusNode;
+  final ValueChanged<String>? onChanged;
 
-  const OtpField({super.key, required this.controller});
+  const OtpField({
+    super.key,
+    required this.controller,
+    required this.focusNode,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +22,8 @@ class OtpField extends StatelessWidget {
       width: 45.w,
       height: 55.h,
       child: TextField(
+        focusNode: focusNode,
+        onChanged: onChanged,
         controller: controller,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,

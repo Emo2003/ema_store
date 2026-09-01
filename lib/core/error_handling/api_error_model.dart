@@ -1,28 +1,47 @@
-import 'dart:convert';
-
-ApiErrorModel apiErrorModelFromJson(String str) =>
-    ApiErrorModel.fromJson(json.decode(str));
-
-String apiErrorModelToJson(ApiErrorModel data) => json.encode(data.toJson());
-
 class ApiErrorModel {
   String? statusMsg;
   String? message;
+  ApiErrorDetails? errors;
 
-  ApiErrorModel({this.statusMsg, this.message});
+  ApiErrorModel({
+    this.statusMsg,
+    this.message,
+    this.errors,
+  });
 
   ApiErrorModel.fromJson(dynamic json) {
     if (json is! Map<String, dynamic>) {
       throw const FormatException('Invalid JSON');
     }
+
     statusMsg = json['statusMsg']?.toString();
     message = json['message']?.toString();
-  }
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['statusMsg'] = statusMsg;
-    map['message'] = message;
-    return map;
+    if (json['errors'] is Map<String, dynamic>) {
+      errors = ApiErrorDetails.fromJson(json['errors']);
+    }
+  }
+}
+
+class ApiErrorDetails {
+  String? value;
+  String? msg;
+  String? param;
+  String? location;
+
+  ApiErrorDetails({
+    this.value,
+    this.msg,
+    this.param,
+    this.location,
+  });
+
+  factory ApiErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ApiErrorDetails(
+      value: json['value']?.toString(),
+      msg: json['msg']?.toString(),
+      param: json['param']?.toString(),
+      location: json['location']?.toString(),
+    );
   }
 }

@@ -23,12 +23,21 @@ class _ReceiveCodePageState extends State<ReceiveCodePage> {
     6,
     (_) => TextEditingController(),
   );
+  final List<FocusNode> otpFocusNodes = List.generate(
+    6,
+        (_) => FocusNode(),
+  );
 
   @override
   void dispose() {
     for (final controller in otpControllers) {
       controller.dispose();
     }
+
+    for (final focusNode in otpFocusNodes) {
+      focusNode.dispose();
+    }
+
     super.dispose();
   }
 
@@ -199,7 +208,19 @@ class _ReceiveCodePageState extends State<ReceiveCodePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(
                       6,
-                      (index) => OtpField(controller: otpControllers[index]),
+                          (index) => OtpField(
+                        controller: otpControllers[index],
+                        focusNode: otpFocusNodes[index],
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 5) {
+                            otpFocusNodes[index + 1].requestFocus();
+                          }
+
+                          if (value.isEmpty && index > 0) {
+                            otpFocusNodes[index - 1].requestFocus();
+                          }
+                        },
+                      ),
                     ),
                   ),
 

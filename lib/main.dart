@@ -32,7 +32,7 @@ class EmaStore extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return BlocProvider(
-          create: (_) => getIt<AuthCubit>(),
+          create: (_) => getIt<AuthCubit>()..restoreUser(),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorKey,

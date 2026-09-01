@@ -53,7 +53,11 @@ class _HomePageState extends State<HomePage> {
   Widget _sectionError(String message) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Text(message, style: const TextStyle(color: Colors.red)),
+      child: Text(
+        message,
+        style: const TextStyle(color: ColorManager.error),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
