@@ -24,8 +24,6 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   @override
   void initState() {
     super.initState();
-
-    // Load wishlist when opening product details
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final wishlistCubit = context.read<WishlistCubit>();
 

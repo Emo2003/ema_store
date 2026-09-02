@@ -2,6 +2,8 @@ import 'package:ema_store/core/resources/assets_manager.dart';
 import 'package:ema_store/core/resources/color_manager.dart';
 import 'package:ema_store/core/config/get_config.dart';
 import 'package:ema_store/features/category/presentation/pages/category_page.dart';
+import 'package:ema_store/features/home/presentation/widget/container_number_cart.dart';
+import 'package:ema_store/features/home/presentation/widget/container_number_wishlist.dart';
 import 'package:ema_store/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:ema_store/features/profile/presentation/pages/profile_page.dart';
 import 'package:ema_store/features/wishlist/presentation/pages/wishlist_page.dart';
@@ -10,9 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../cart/presentation/manager/cart_cubit.dart';
 import '../../../cart/presentation/pages/cart_page.dart';
 import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
-import '../manager/home_cubit.dart';
 import 'home_page.dart';
 
 class LayoutPage extends StatefulWidget {
@@ -23,6 +25,14 @@ class LayoutPage extends StatefulWidget {
 }
 
 class _LayoutPageState extends State<LayoutPage> {
+  void openCartTab() {
+    setState(() {
+      _selectedIndex = 2;
+    });
+
+    context.read<CartCubit>().getCartItems();
+  }
+
   int _selectedIndex = 0;
 
   late final List<Widget> tabs;
@@ -38,16 +48,15 @@ class _LayoutPageState extends State<LayoutPage> {
             _selectedIndex = 1;
           });
         },
+        onOpenCart: openCartTab,
       ),
-      BlocProvider(
-        create: (_) => getIt<HomeCubit>()..getAllCategories(),
-        child: const CategoryPage(),
-      ),
+
+      CategoryPage(onOpenCart: openCartTab),
+
       const CartPage(),
-      BlocProvider(
-        create: (_) => getIt<WishlistCubit>(),
-        child: const WishlistPage(),
-      ),
+
+      const WishlistPage(),
+
       BlocProvider(
         create: (_) => getIt<ProfileCubit>(),
         child: const ProfilePage(),
@@ -120,19 +129,52 @@ class _LayoutPageState extends State<LayoutPage> {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: circularIcon(icon: IconsAssets.cart, isSelected: false),
-                activeIcon: circularIcon(
-                  icon: IconsAssets.cartActive,
-                  isSelected: true,
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    circularIcon(icon: IconsAssets.cart, isSelected: false),
+                    if (context.watch<CartCubit>().cartItems.isNotEmpty)
+                      Positioned(
+                        right: -6,
+                        top: -6,
+                        child: ContainerNumberCart(),
+                      ),
+                  ],
+                ),
+                activeIcon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    circularIcon(
+                      icon: IconsAssets.cartActive,
+                      isSelected: true,
+                    ),
+                    if (context.watch<CartCubit>().cartItems.isNotEmpty)
+                      Positioned(
+                        right: -6,
+                        top: -6,
+                        child: ContainerNumberCart(),
+                      ),
+                  ],
                 ),
                 label: '',
               ),
 
               BottomNavigationBarItem(
-                icon: circularIcon(icon: IconsAssets.fav, isSelected: false),
-                activeIcon: circularIcon(
-                  icon: IconsAssets.favActive,
-                  isSelected: true,
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    circularIcon(icon: IconsAssets.fav, isSelected: false),
+                    if (context.watch<WishlistCubit>().wishlistItems.isNotEmpty)
+                      Positioned(right: -6, top: -6, child: ContainerNumber()),
+                  ],
+                ),
+                activeIcon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    circularIcon(icon: IconsAssets.favActive, isSelected: true),
+                    if (context.watch<WishlistCubit>().wishlistItems.isNotEmpty)
+                      Positioned(right: -6, top: -6, child: ContainerNumber()),
+                  ],
                 ),
                 label: '',
               ),

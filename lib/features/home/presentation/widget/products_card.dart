@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/color_manager.dart';
+import '../../../cart/presentation/manager/cart_cubit.dart';
 import '../../data/models/products/Products.dart';
 import '../manager/home_cubit.dart';
 
@@ -213,7 +214,9 @@ class ProductsCard extends StatelessWidget {
                             const Spacer(),
                             InkWell(
                               onTap: () {
-                                // Add to cart
+                                context.read<CartCubit>().addToCart(
+                                  product.id ?? '',
+                                );
                               },
                               borderRadius: BorderRadius.circular(20.r),
                               splashColor: Colors.transparent,

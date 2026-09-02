@@ -1,10 +1,13 @@
+import 'package:ema_store/features/profile/data/models/Data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/color_manager.dart';
 
 class AddressCard extends StatelessWidget {
-  const AddressCard({super.key});
+  final Data address;
+
+  const AddressCard({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +31,21 @@ class AddressCard extends StatelessWidget {
             color: ColorManager.primary,
             size: 30.sp,
           ),
-
           12.horizontalSpace,
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Home",
+                  address.name ?? '',
                   style: TextStyle(
                     fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 5.verticalSpace,
-
                 Text(
-                  "123 Main Street, City, Country",
+                  '${address.details ?? ''}, ${address.city ?? ''}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -54,11 +53,9 @@ class AddressCard extends StatelessWidget {
                     color: Colors.grey.shade600,
                   ),
                 ),
-
                 4.verticalSpace,
-
                 Text(
-                  "+1234567890",
+                  address.phone ?? '',
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: Colors.grey.shade600,
@@ -67,7 +64,6 @@ class AddressCard extends StatelessWidget {
               ],
             ),
           ),
-
           Icon(Icons.check_circle, color: ColorManager.primary, size: 25.sp),
         ],
       ),

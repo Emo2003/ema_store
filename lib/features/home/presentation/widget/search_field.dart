@@ -7,8 +7,15 @@ import '../../../../core/resources/color_manager.dart';
 
 class SearchField extends StatelessWidget {
   final ValueChanged<String> onChanged;
+  final VoidCallback onCartPressed;
+  final bool appearCartIcon;
 
-  const SearchField({super.key, required this.onChanged});
+  const SearchField({
+    super.key,
+    required this.onChanged,
+    required this.onCartPressed,
+    this.appearCartIcon = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +58,9 @@ class SearchField extends StatelessWidget {
 
         15.horizontalSpace,
 
+        appearCartIcon?
         IconButton(
-          onPressed: () {},
+          onPressed: onCartPressed,
           icon: SvgPicture.asset(
             IconsAssets.cart,
             colorFilter: ColorFilter.mode(
@@ -62,7 +70,7 @@ class SearchField extends StatelessWidget {
             width: 30.w,
             height: 30.h,
           ),
-        ),
+        ): SizedBox.shrink(),
       ],
     );
   }
