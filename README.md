@@ -69,13 +69,15 @@ Every screen was designed around one idea: **the shopping experience should feel
 
 ### Checkout
 - Order review
-- Delivery details
+- Delivery details, pulled from the saved profile address
 - Simulated payment flow
 - Order placement
 
 ### Profile
 - View account information
 - Manage profile details
+- Add and manage delivery address
+- View order history
 
 </td>
 </tr>
@@ -185,9 +187,15 @@ Each feature owns its own **Cubit**, keeping UI, logic, and data flow cleanly se
 | `CategoryCubit` | Category-based product filtering |
 | `CartCubit` | Cart items, quantities, totals |
 | `WishlistCubit` | Saved / favorite products |
-| `ProfileCubit` | User profile data |
+| `ProfileCubit` | User profile data, saved delivery address, order history |
 
 This structure keeps the UI layer dumb and declarative, while all business logic lives in a single, testable place per feature.
+
+<br>
+
+### Profile-Driven Delivery
+
+The user's **delivery address is managed from their Profile** and reused automatically at checkout, so returning users can review and place an order without re-entering their details every time. The same Profile section surfaces a **full history of past orders**, giving users a single place to manage both their account and their purchase activity.
 
 <br>
 
@@ -269,6 +277,7 @@ This project was built to:
 - Build reusable, consistent UI components
 - Handle complex, multi-step navigation flows
 - Recreate a full shopping journey — from first browse to placed order
+- Connect user profile data (like saved addresses) directly into the checkout flow
 
 <br>
 
