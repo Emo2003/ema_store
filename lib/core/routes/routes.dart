@@ -58,9 +58,15 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (_) => getIt<CategoryCubit>()),
-              BlocProvider(create: (_) => getIt<HomeCubit>()),
-              BlocProvider(create: (_) => getIt<WishlistCubit>()),
+              BlocProvider.value(
+                value: getIt<CategoryCubit>(),
+              ),
+              BlocProvider.value(
+                value: getIt<HomeCubit>(),
+              ),
+              BlocProvider.value(
+                value: getIt<WishlistCubit>(),
+              ),
               BlocProvider.value(
                 value: getIt<CartCubit>(),
               ),
@@ -113,6 +119,7 @@ class Routes {
                 BlocProvider.value(
                   value: getIt<WishlistCubit>()..getWishlist(),
                 ),
+                BlocProvider.value(value: getIt<CartCubit>()),
               ],
               child: const ProductsDetails(),
             ),

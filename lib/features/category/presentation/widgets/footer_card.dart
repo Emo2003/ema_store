@@ -6,13 +6,26 @@ import '../../../../core/widget/custom_elevate_btn.dart';
 
 class FooterCard extends StatelessWidget {
   final num totalPrice;
-  const FooterCard({super.key, required this.totalPrice});
+  final VoidCallback onAddToCart;
+
+  const FooterCard({
+    super.key,
+    required this.totalPrice,
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20.h, left: 5.w, right: 5.w),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      margin: EdgeInsets.only(
+        bottom: 20.h,
+        left: 5.w,
+        right: 5.w,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.w,
+        vertical: 10.h,
+      ),
       decoration: BoxDecoration(
         color: ColorManager.secondary,
         borderRadius: BorderRadius.circular(25.r),
@@ -21,7 +34,7 @@ class FooterCard extends StatelessWidget {
             color: ColorManager.primary.withAlpha(50),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -29,9 +42,10 @@ class FooterCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Price",
+                'Total Price',
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
@@ -40,7 +54,7 @@ class FooterCard extends StatelessWidget {
               ),
               5.verticalSpace,
               Text(
-                " ${totalPrice.toStringAsFixed(1)}  EGP",
+                '${totalPrice.toStringAsFixed(1)} EGP',
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.w900,
@@ -49,10 +63,9 @@ class FooterCard extends StatelessWidget {
               ),
             ],
           ),
-          30.horizontalSpace,
           CustomElevateBtn(
-            onPressed: () {},
-            text: "Add to Cart",
+            onPressed: onAddToCart,
+            text: 'Add to Cart',
             width: 150.w,
             isCart: true,
           ),
