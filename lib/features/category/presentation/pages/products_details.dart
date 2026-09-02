@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../cart/presentation/manager/cart_cubit.dart';
 import '../../../home/presentation/manager/home_cubit.dart';
 import '../../../wishlist/presentation/manager/wishlist_cubit.dart';
 import '../../../wishlist/presentation/manager/wishlist_state.dart';
@@ -24,6 +25,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final wishlistCubit = context.read<WishlistCubit>();
 
@@ -37,6 +39,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
   Widget build(BuildContext context) {
     final homeCubit = context.read<HomeCubit>();
     final wishlistCubit = context.read<WishlistCubit>();
+    final cartCubit = context.read<CartCubit>();
 
     final product = homeCubit.selectedProduct;
 
@@ -57,9 +60,7 @@ class _ProductsDetailsState extends State<ProductsDetails> {
       backgroundColor: ColorManager.secondary,
       body: BlocBuilder<WishlistCubit, WishlistState>(
         builder: (context, wishlistState) {
-          final isFavorite = wishlistCubit.isInWishlist(
-            product.id!,
-          );
+          final isFavorite = wishlistCubit.isInWishlist(product.id!);
 
           return Column(
             children: [
@@ -101,6 +102,11 @@ class _ProductsDetailsState extends State<ProductsDetails> {
 
               FooterCard(
                 totalPrice: totalPrice,
+                onAddToCart: () {
+                  cartCubit.addToCart(
+                    product.id!,
+                  );
+                },
               ),
             ],
           );
