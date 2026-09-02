@@ -1,19 +1,19 @@
-# 🛍️ Ema Store
+#  Ema Store
 
 **Ema Store** is a modern Flutter-based e-commerce application that allows users to browse products, search and filter items, manage their wishlist and shopping cart, and complete the checkout process through a clean and user-friendly interface.
 
 The project was built using **Flutter**, **Dart**, **BLoC/Cubit**, and **REST APIs**, with a focus on clean architecture, reusable components, and scalable project structure.
 
-## ✨ Features
+##  Features
 
-* 🔐 **Authentication**
+*  **Authentication**
 
     * User Login
     * User Registration
     * Forgot Password
     * Password Reset
 
-* 🏠 **Home**
+*  **Home**
 
     * Browse products
     * Browse categories
@@ -21,7 +21,7 @@ The project was built using **Flutter**, **Dart**, **BLoC/Cubit**, and **REST AP
     * Search for products
     * View featured products
 
-* 📦 **Products**
+*  **Products**
 
     * View products by category
     * View products by brand
@@ -30,13 +30,13 @@ The project was built using **Flutter**, **Dart**, **BLoC/Cubit**, and **REST AP
     * Add products to cart
     * Add/remove products from wishlist
 
-* ❤️ **Wishlist**
+*  **Wishlist**
 
     * Add products to wishlist
     * Remove products from wishlist
     * View favorite products
 
-* 🛒 **Shopping Cart**
+*  **Shopping Cart**
 
     * Add products to cart
     * Increase/decrease product quantity
@@ -44,19 +44,19 @@ The project was built using **Flutter**, **Dart**, **BLoC/Cubit**, and **REST AP
     * View cart items
     * Calculate cart totals
 
-* 💳 **Checkout**
+*  **Checkout**
 
     * Review order details
     * Select delivery information
     * Fake payment flow
     * Place orders
 
-* 👤 **Profile**
+*  **Profile**
 
     * View user information
     * Manage profile
 
-## 🛠️ Technologies & Tools
+##  Technologies & Tools
 
 * **Flutter**
 * **Dart**
@@ -70,7 +70,7 @@ The project was built using **Flutter**, **Dart**, **BLoC/Cubit**, and **REST AP
 * **SVG Assets**
 * **Git & GitHub**
 
-## 🏗️ Architecture
+##  Architecture
 
 The application follows a feature-based architecture with separation of responsibilities between presentation, data, and business logic.
 
@@ -108,7 +108,7 @@ Examples include:
 
 This keeps the UI separated from business logic and makes the application easier to maintain and extend.
 
-## 🔄 Application Flow
+##  Application Flow
 
 ```text
 Authentication
@@ -125,12 +125,12 @@ Product Details
       ↓
    Checkout
       ↓
- Fake Payment
+  Payment
       ↓
    Place Order
 ```
 
-## 📱 Screens
+##  Screens
 
 The application includes:
 
@@ -149,7 +149,7 @@ The application includes:
 * Payment
 * Profile
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -187,7 +187,7 @@ flutter pub get
 flutter run
 ```
 
-## 🔑 API
+##  API
 
 The application communicates with a RESTful backend to retrieve and manage:
 
@@ -201,7 +201,7 @@ The application communicates with a RESTful backend to retrieve and manage:
 
 API communication is handled using **Dio**, while Cubits manage the application state and UI updates.
 
-## 📸 Screenshots
+##  Screenshots
 
 *Add screenshots of the application here.*
 
@@ -218,7 +218,7 @@ screenshots/
 └── checkout.png
 ```
 
-## 🎯 Project Goals
+##  Project Goals
 
 The main goals of this project were to:
 
@@ -230,7 +230,7 @@ The main goals of this project were to:
 * Handle navigation between multiple application flows.
 * Build a complete shopping experience from browsing products to placing an order.
 
-## 👩‍💻 Developer
+##  Developer
 
 **Eman Ismail**
 
