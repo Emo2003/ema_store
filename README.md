@@ -1,133 +1,159 @@
-# Ema Store
+<div align="center">
 
-**Ema Store** is a modern Flutter-based e-commerce application that allows users to browse products, search and filter items, manage their wishlist and shopping cart, and complete the checkout process through a clean and user-friendly interface.
+# EMA STORE
 
-The project was built using **Flutter, Dart, BLoC/Cubit, and REST APIs**, with a focus on clean architecture, reusable components, and a scalable project structure.
+### A modern e-commerce experience, built with Flutter
+
+*Browse. Search. Wishlist. Checkout. All in one clean, scalable app.*
+
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![BLoC](https://img.shields.io/badge/State_Management-BLoC%2FCubit-4285F4?style=for-the-badge)
+![REST API](https://img.shields.io/badge/REST-API-FF6F00?style=for-the-badge)
+
+</div>
+
+<br>
+
+## About the Project
+
+**Ema Store** is a fully functional Flutter e-commerce application that takes a user from their first login all the way through to placing an order. It was built to demonstrate a production-style approach to mobile development — clean architecture, predictable state management, and a UI that feels considered rather than default.
+
+Every screen was designed around one idea: **the shopping experience should feel effortless.** Behind that simplicity sits a feature-based codebase built for scale, testability, and long-term maintenance.
+
+<br>
 
 ---
 
-## Features
+## Feature Overview
+
+<table>
+<tr>
+<td width="50%" valign="top">
 
 ### Authentication
-
-* User Login
-* User Registration
-* Forgot Password
-* Password Reset
+- User login
+- User registration
+- Forgot password
+- Password reset
 
 ### Home
-
-* Browse products
-* Browse categories
-* Browse brands
-* Search for products
-* View featured products
+- Product browsing
+- Category browsing
+- Brand browsing
+- Product search
+- Featured product highlights
 
 ### Products
+- Browse by category
+- Browse by brand
+- Full product search
+- Detailed product view
+- Add to cart
+- Add / remove from wishlist
 
-* View products by category
-* View products by brand
-* Search products
-* View product details
-* Add products to cart
-* Add/remove products from wishlist
+</td>
+<td width="50%" valign="top">
 
 ### Wishlist
-
-* Add products to wishlist
-* Remove products from wishlist
-* View favorite products
+- Add to wishlist
+- Remove from wishlist
+- View saved favorites
 
 ### Shopping Cart
-
-* Add products to cart
-* Increase/decrease product quantity
-* Remove products from cart
-* View cart items
-* Calculate cart totals
+- Add products to cart
+- Adjust quantity
+- Remove items
+- Live cart summary
+- Automatic total calculation
 
 ### Checkout
-
-* Review order details
-* Select delivery information
-* Fake payment flow
-* Place orders
+- Order review
+- Delivery details
+- Simulated payment flow
+- Order placement
 
 ### Profile
+- View account information
+- Manage profile details
 
-* View user information
-* Manage profile
+</td>
+</tr>
+</table>
+
+<br>
 
 ---
 
 ## Screenshots
 
+<div align="center">
+
 ### Authentication
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/e875fd43-5772-48c4-aae1-5af64bf84b02" width="180"/>
-  <img src="https://github.com/user-attachments/assets/c53e0b0f-0dc4-4f02-ba09-760ea60c72d0" width="180"/>
-  <img src="https://github.com/user-attachments/assets/6483bbc0-4a37-4c68-8c50-339fca5e2d08" width="180"/>
-  <img src="https://github.com/user-attachments/assets/04fe7bfb-876d-4b16-8337-2ed16ebb22bf" width="180"/>
-  <img src="https://github.com/user-attachments/assets/ab941ab6-8938-4645-8d8c-69330c971cd1" width="180"/>
-</p>
+<img src="https://github.com/user-attachments/assets/e875fd43-5772-48c4-aae1-5af64bf84b02" width="170"/>
+<img src="https://github.com/user-attachments/assets/c53e0b0f-0dc4-4f02-ba09-760ea60c72d0" width="170"/>
+<img src="https://github.com/user-attachments/assets/6483bbc0-4a37-4c68-8c50-339fca5e2d08" width="170"/>
+<img src="https://github.com/user-attachments/assets/04fe7bfb-876d-4b16-8337-2ed16ebb22bf" width="170"/>
+<img src="https://github.com/user-attachments/assets/ab941ab6-8938-4645-8d8c-69330c971cd1" width="170"/>
 
-### Home and Product Discovery
+<br><br>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/b8b96a8a-0b74-49e4-b791-201133a33990" width="180"/>
-  <img src="https://github.com/user-attachments/assets/062fa1de-ff8e-499b-b98e-4daa034b7bee" width="180"/>
-  <img src="https://github.com/user-attachments/assets/0330b646-64cd-4419-9aa7-5a9221325b5d" width="180"/>
-</p>
+### Home & Product Discovery
 
-### Products and Wishlist
+<img src="https://github.com/user-attachments/assets/b8b96a8a-0b74-49e4-b791-201133a33990" width="170"/>
+<img src="https://github.com/user-attachments/assets/062fa1de-ff8e-499b-b98e-4daa034b7bee" width="170"/>
+<img src="https://github.com/user-attachments/assets/0330b646-64cd-4419-9aa7-5a9221325b5d" width="170"/>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/51140878-3e45-4647-95cb-e5d9ff8fd66f" width="180"/>
-  <img src="https://github.com/user-attachments/assets/28397c39-44b5-418d-899b-9e6a2ce5a158" width="180"/>
-  <img src="https://github.com/user-attachments/assets/cdf64222-f5d9-4fa7-9a27-88136e4634ce" width="180"/>
-</p>
+<br><br>
 
-### Cart and Checkout
+### Products & Wishlist
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/9a986f82-4f48-4e01-a8cd-05e4e70a61ba" width="180"/>
-  <img src="https://github.com/user-attachments/assets/a82adac3-5681-4cc0-944b-aa570c06629e" width="180"/>
-  <img src="https://github.com/user-attachments/assets/99c2649a-578b-4f8b-8195-ad8542a70a2c" width="180"/>
-  <img src="https://github.com/user-attachments/assets/8cfb927e-711a-4edd-8851-7a64f0a73cbc" width="180"/>
-</p>
+<img src="https://github.com/user-attachments/assets/51140878-3e45-4647-95cb-e5d9ff8fd66f" width="170"/>
+<img src="https://github.com/user-attachments/assets/28397c39-44b5-418d-899b-9e6a2ce5a158" width="170"/>
+<img src="https://github.com/user-attachments/assets/cdf64222-f5d9-4fa7-9a27-88136e4634ce" width="170"/>
 
-### Profile and Orders
+<br><br>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/0f5e2779-9614-478f-8274-52bdfc48ad49" width="180"/>
-  <img src="https://github.com/user-attachments/assets/859b3eaa-7124-48e7-b27c-001d44e29bc2" width="180"/>
-  <img src="https://github.com/user-attachments/assets/f3bbcd78-5727-48bd-b55a-2d10325c5efc" width="180"/>
-  
-  
-</p>
+### Cart & Checkout
+
+<img src="https://github.com/user-attachments/assets/9a986f82-4f48-4e01-a8cd-05e4e70a61ba" width="170"/>
+<img src="https://github.com/user-attachments/assets/a82adac3-5681-4cc0-944b-aa570c06629e" width="170"/>
+<img src="https://github.com/user-attachments/assets/99c2649a-578b-4f8b-8195-ad8542a70a2c" width="170"/>
+<img src="https://github.com/user-attachments/assets/8cfb927e-711a-4edd-8851-7a64f0a73cbc" width="170"/>
+
+<br><br>
+
+### Profile & Orders
+
+<img src="https://github.com/user-attachments/assets/0f5e2779-9614-478f-8274-52bdfc48ad49" width="170"/>
+<img src="https://github.com/user-attachments/assets/859b3eaa-7124-48e7-b27c-001d44e29bc2" width="170"/>
+<img src="https://github.com/user-attachments/assets/f3bbcd78-5727-48bd-b55a-2d10325c5efc" width="170"/>
+
+</div>
+
+<br>
 
 ---
 
-## Technologies and Tools
+## Tech Stack
 
-* **Flutter**
-* **Dart**
-* **BLoC / Cubit**
-* **REST APIs**
-* **Dio**
-* **GetIt**
-* **Injectable**
-* **Dependency Injection**
-* **Flutter ScreenUtil**
-* **SVG Assets**
-* **Git & GitHub**
+| Layer | Tools |
+|---|---|
+| **Framework** | Flutter, Dart |
+| **State Management** | BLoC / Cubit |
+| **Networking** | Dio, REST APIs |
+| **Dependency Injection** | GetIt, Injectable |
+| **UI Utilities** | Flutter ScreenUtil, SVG Assets |
+| **Version Control** | Git & GitHub |
+
+<br>
 
 ---
 
 ## Architecture
 
-The application follows a feature-based architecture with a clear separation of responsibilities between presentation, business logic, and data layers.
+Ema Store follows a **feature-based clean architecture**, separating presentation, business logic, and data concerns so each part of the app can evolve independently.
 
 ```text
 lib/
@@ -151,57 +177,44 @@ lib/
 
 ### State Management
 
-**BLoC/Cubit** is used to manage application state and handle communication between the UI and business logic.
+Each feature owns its own **Cubit**, keeping UI, logic, and data flow cleanly separated:
 
-Examples include:
+| Cubit | Responsibility |
+|---|---|
+| `HomeCubit` | Home feed, featured products, categories & brands |
+| `CategoryCubit` | Category-based product filtering |
+| `CartCubit` | Cart items, quantities, totals |
+| `WishlistCubit` | Saved / favorite products |
+| `ProfileCubit` | User profile data |
 
-* `HomeCubit`
-* `CategoryCubit`
-* `CartCubit`
-* `WishlistCubit`
-* `ProfileCubit`
+This structure keeps the UI layer dumb and declarative, while all business logic lives in a single, testable place per feature.
 
-This keeps the UI separated from business logic and makes the application easier to maintain and extend.
+<br>
 
 ---
 
 ## Application Flow
 
-```text
-Authentication
-      ↓
-Home
-      ↓
-Categories / Brands
-      ↓
-Products
-      ↓
-Product Details
-      ↓
-Cart
-      ↓
-Checkout
-      ↓
-Payment
-      ↓
-Place Order
-```
+<div align="center">
+
+**Authentication**  →  **Home**  →  **Categories / Brands**  →  **Products**
+→ **Product Details**  →  **Cart**  →  **Checkout**  →  **Payment**  →  **Place Order**
+
+</div>
+
+<br>
 
 ---
 
 ## API Integration
 
-The application communicates with a RESTful backend to retrieve and manage:
+The app talks to a RESTful backend for all core data:
 
-* Products
-* Categories
-* Brands
-* Users
-* Wishlist
-* Cart
-* Orders
+**Products · Categories · Brands · Users · Wishlist · Cart · Orders**
 
-API communication is handled using **Dio**, while Cubits manage application state and UI updates.
+All network calls are handled through **Dio**, with each Cubit orchestrating requests, loading states, and error handling — keeping the UI reactive to every stage of a request.
+
+<br>
 
 ---
 
@@ -209,9 +222,7 @@ API communication is handled using **Dio**, while Cubits manage application stat
 
 ### Prerequisites
 
-Make sure you have Flutter installed on your machine.
-
-Verify your Flutter installation:
+Make sure Flutter is installed and configured on your machine:
 
 ```bash
 flutter doctor
@@ -219,48 +230,56 @@ flutter doctor
 
 ### Installation
 
-Clone the repository:
+**1. Clone the repository**
 
 ```bash
 git clone https://github.com/your-username/ema_store.git
 ```
 
-Navigate to the project:
+**2. Navigate into the project**
 
 ```bash
 cd ema_store
 ```
 
-Install dependencies:
+**3. Install dependencies**
 
 ```bash
 flutter pub get
 ```
 
-Run the application:
+**4. Run the app**
 
 ```bash
 flutter run
 ```
 
+<br>
+
 ---
 
 ## Project Goals
 
-The main goals of this project were to:
+This project was built to:
 
-* Build a complete e-commerce application using Flutter
-* Practice state management with BLoC/Cubit
-* Work with REST APIs
-* Apply clean and maintainable architecture
-* Implement reusable UI components
-* Handle navigation between multiple application flows
-* Build a complete shopping experience from browsing products to placing an order
+- Deliver a complete, real-world e-commerce app using Flutter
+- Practice scalable state management with BLoC/Cubit
+- Integrate and manage data through REST APIs
+- Apply clean, maintainable, feature-based architecture
+- Build reusable, consistent UI components
+- Handle complex, multi-step navigation flows
+- Recreate a full shopping journey — from first browse to placed order
+
+<br>
 
 ---
+
+<div align="center">
 
 ## Developer
 
 **Eman Medhat**
 
-Flutter Developer | Computer Science Graduate
+*Flutter Developer · Computer Science Graduate*
+
+</div>
