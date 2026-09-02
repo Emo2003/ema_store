@@ -65,44 +65,47 @@ The project was built using **Flutter, Dart, BLoC/Cubit, and REST APIs**, with a
 ### Authentication
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/cdf64222-f5d9-4fa7-9a27-88136e4634ce" width="180"/>
-  <img src="https://github.com/user-attachments/assets/9a986f82-4f48-4e01-a8cd-05e4e70a61ba" width="180"/>
-  <img src="https://github.com/user-attachments/assets/a82adac3-5681-4cc0-944b-aa570c06629e" width="180"/>
-  <img src="https://github.com/user-attachments/assets/99c2649a-578b-4f8b-8195-ad8542a70a2c" width="180"/>
+  <img src="https://github.com/user-attachments/assets/e875fd43-5772-48c4-aae1-5af64bf84b02" width="180"/>
+  <img src="https://github.com/user-attachments/assets/c53e0b0f-0dc4-4f02-ba09-760ea60c72d0" width="180"/>
+  <img src="https://github.com/user-attachments/assets/6483bbc0-4a37-4c68-8c50-339fca5e2d08" width="180"/>
+  <img src="https://github.com/user-attachments/assets/04fe7bfb-876d-4b16-8337-2ed16ebb22bf" width="180"/>
+  <img src="https://github.com/user-attachments/assets/ab941ab6-8938-4645-8d8c-69330c971cd1" width="180"/>
 </p>
 
 ### Home and Product Discovery
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8cfb927e-711a-4edd-8851-7a64f0a73cbc" width="180"/>
-  <img src="https://github.com/user-attachments/assets/28397c39-44b5-418d-899b-9e6a2ce5a158" width="180"/>
-  <img src="https://github.com/user-attachments/assets/0f5e2779-9614-478f-8274-52bdfc48ad49" width="180"/>
-  <img src="https://github.com/user-attachments/assets/f3bbcd78-5727-48bd-b55a-2d10325c5efc" width="180"/>
+  <img src="https://github.com/user-attachments/assets/b8b96a8a-0b74-49e4-b791-201133a33990" width="180"/>
+  <img src="https://github.com/user-attachments/assets/062fa1de-ff8e-499b-b98e-4daa034b7bee" width="180"/>
+  <img src="https://github.com/user-attachments/assets/0330b646-64cd-4419-9aa7-5a9221325b5d" width="180"/>
 </p>
 
 ### Products and Wishlist
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/859b3eaa-7124-48e7-b27c-001d44e29bc2" width="180"/>
-  <img src="https://github.com/user-attachments/assets/0330b646-64cd-4419-9aa7-5a9221325b5d" width="180"/>
-  <img src="https://github.com/user-attachments/assets/e875fd43-5772-48c4-aae1-5af64bf84b02" width="180"/>
-  <img src="https://github.com/user-attachments/assets/c53e0b0f-0dc4-4f02-ba09-760ea60c72d0" width="180"/>
+  <img src="https://github.com/user-attachments/assets/51140878-3e45-4647-95cb-e5d9ff8fd66f" width="180"/>
+  <img src="https://github.com/user-attachments/assets/28397c39-44b5-418d-899b-9e6a2ce5a158" width="180"/>
+  <img src="https://github.com/user-attachments/assets/cdf64222-f5d9-4fa7-9a27-88136e4634ce" width="180"/>
 </p>
 
 ### Cart and Checkout
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6483bbc0-4a37-4c68-8c50-339fca5e2d08" width="180"/>
-  <img src="https://github.com/user-attachments/assets/04fe7bfb-876d-4b16-8337-2ed16ebb22bf" width="180"/>
-  <img src="https://github.com/user-attachments/assets/ab941ab6-8938-4645-8d8c-69330c971cd1" width="180"/>
-  <img src="https://github.com/user-attachments/assets/b8b96a8a-0b74-49e4-b791-201133a33990" width="180"/>
+  <img src="https://github.com/user-attachments/assets/9a986f82-4f48-4e01-a8cd-05e4e70a61ba" width="180"/>
+  <img src="https://github.com/user-attachments/assets/a82adac3-5681-4cc0-944b-aa570c06629e" width="180"/>
+  <img src="https://github.com/user-attachments/assets/99c2649a-578b-4f8b-8195-ad8542a70a2c" width="180"/>
+  <img src="https://github.com/user-attachments/assets/8cfb927e-711a-4edd-8851-7a64f0a73cbc" width="180"/>
 </p>
 
 ### Profile and Orders
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/062fa1de-ff8e-499b-b98e-4daa034b7bee" width="180"/>
+  <img src="https://github.com/user-attachments/assets/0f5e2779-9614-478f-8274-52bdfc48ad49" width="180"/>
   <img src="https://github.com/user-attachments/assets/51140878-3e45-4647-95cb-e5d9ff8fd66f" width="180"/>
+  <img src="https://github.com/user-attachments/assets/859b3eaa-7124-48e7-b27c-001d44e29bc2" width="180"/>
+  <img src="https://github.com/user-attachments/assets/f3bbcd78-5727-48bd-b55a-2d10325c5efc" width="180"/>
+  
+  
 </p>
 
 ---
