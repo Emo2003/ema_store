@@ -21,6 +21,16 @@ import 'package:ema_store/features/auth/data/repositories/auth_repo_imp.dart'
     as _i207;
 import 'package:ema_store/features/auth/presentation/manager/auth_cubit.dart'
     as _i112;
+import 'package:ema_store/features/cart/data/data_sources/cart_data_source.dart'
+    as _i152;
+import 'package:ema_store/features/cart/data/data_sources/cart_data_source_imp.dart'
+    as _i516;
+import 'package:ema_store/features/cart/data/repositories/cart_repo.dart'
+    as _i615;
+import 'package:ema_store/features/cart/data/repositories/cart_repo_imp.dart'
+    as _i486;
+import 'package:ema_store/features/cart/presentation/manager/cart_cubit.dart'
+    as _i223;
 import 'package:ema_store/features/category/data/data_sources/category_data_source.dart'
     as _i394;
 import 'package:ema_store/features/category/data/data_sources/category_data_source_imp.dart'
@@ -83,6 +93,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i568.HomeDataSource>(
       () => _i111.HomeDataSourceImp(gh<_i521.NetworkService>()),
     );
+    gh.factory<_i152.CartDataSource>(
+      () => _i516.CartDataSourceImp(gh<_i521.NetworkService>()),
+    );
     gh.factory<_i818.AuthDataSource>(
       () => _i965.AuthDataSourceImp(gh<_i521.NetworkService>()),
     );
@@ -117,12 +130,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i377.ProfileRepo>(
       () => _i108.ProfileRepoImp(gh<_i492.ProfileDataSource>()),
     );
+    gh.factory<_i615.CartRepo>(
+      () => _i486.CartRepoImp(gh<_i152.CartDataSource>()),
+    );
     gh.factory<_i628.WishlistCubit>(
       () => _i628.WishlistCubit(wishlistRepo: gh<_i437.WishlistRepo>()),
     );
     gh.factory<_i184.ProfileCubit>(
       () => _i184.ProfileCubit(gh<_i377.ProfileRepo>()),
     );
+    gh.factory<_i223.CartCubit>(() => _i223.CartCubit(gh<_i615.CartRepo>()));
     return this;
   }
 }
