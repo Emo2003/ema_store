@@ -11,8 +11,7 @@ class Product {
       this.imageCover, 
       this.category, 
       this.brand, 
-      this.ratingsAverage, 
-      this.id,});
+      this.ratingsAverage,});
 
   Product.fromJson(dynamic json) {
     if (json['subcategory'] != null) {
@@ -38,7 +37,6 @@ class Product {
   Category? category;
   Brand? brand;
   num? ratingsAverage;
-  String? id;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
