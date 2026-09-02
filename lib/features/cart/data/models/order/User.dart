@@ -6,7 +6,7 @@ class User {
       this.phone,});
 
   User.fromJson(dynamic json) {
-    id = json['_id'];
+    id = json['id'];
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
@@ -18,7 +18,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['_id'] = id;
+    map['id'] = id;
     map['name'] = name;
     map['email'] = email;
     map['phone'] = phone;

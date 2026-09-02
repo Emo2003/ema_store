@@ -139,7 +139,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i184.ProfileCubit>(
       () => _i184.ProfileCubit(gh<_i377.ProfileRepo>()),
     );
-    gh.factory<_i223.CartCubit>(() => _i223.CartCubit(gh<_i615.CartRepo>()));
+    gh.singleton<_i223.CartCubit>(() => _i223.CartCubit(gh<_i615.CartRepo>()));
     return this;
   }
 }

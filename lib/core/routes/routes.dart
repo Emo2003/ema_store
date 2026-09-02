@@ -5,6 +5,7 @@ import 'package:ema_store/features/auth/presentation/pages/receive_code_page.dar
 import 'package:ema_store/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/cart_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/check_out_page.dart';
+import 'package:ema_store/features/cart/presentation/pages/payment_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/place_order_page.dart';
 import 'package:ema_store/features/category/presentation/manager/category_cubit.dart';
 import 'package:ema_store/features/category/presentation/pages/category_page.dart';
@@ -20,7 +21,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/signup_page.dart';
+import '../../features/cart/presentation/manager/cart_cubit.dart';
 import '../../features/home/presentation/manager/home_cubit.dart';
+import '../../features/profile/presentation/manager/profile_cubit.dart';
 
 class Routes {
   static Widget _wrapWithCanPop(Widget page) {
@@ -58,6 +61,9 @@ class Routes {
               BlocProvider(create: (_) => getIt<CategoryCubit>()),
               BlocProvider(create: (_) => getIt<HomeCubit>()),
               BlocProvider(create: (_) => getIt<WishlistCubit>()),
+              BlocProvider.value(
+                value: getIt<CartCubit>(),
+              ),
             ],
             child: _wrapWithCanPop(const LayoutPage()),
           ),
@@ -73,9 +79,16 @@ class Routes {
         );
       case AppRoutesNames.categories:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const CategoryPage()),
+          builder: (_) => _wrapWithCanPop(
+            CategoryPage(
+              onOpenCart: () {
+                Navigator.of(settings.arguments as BuildContext).pop();
+              },
+            ),
+          ),
         );
       case AppRoutesNames.products:
+        final onOpenCart = settings.arguments as VoidCallback;
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(
             MultiBlocProvider(
@@ -85,8 +98,9 @@ class Routes {
                 BlocProvider.value(
                   value: getIt<WishlistCubit>()..getWishlist(),
                 ),
+                BlocProvider.value(value: getIt<CartCubit>()),
               ],
-              child: const ProductsPage(),
+              child: ProductsPage(onOpenCart: onOpenCart),
             ),
           ),
         );
@@ -105,9 +119,7 @@ class Routes {
           ),
         );
       case AppRoutesNames.home:
-        return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(LayoutPage()),
-        );
+        return MaterialPageRoute(builder: (_) => _wrapWithCanPop(LayoutPage()));
       case AppRoutesNames.wishList:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const WishlistPage()),
@@ -118,11 +130,24 @@ class Routes {
         );
       case AppRoutesNames.checkout:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const CheckOutPage()),
+          builder: (_) => _wrapWithCanPop(
+            MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: getIt<CartCubit>()),
+                BlocProvider.value(value: getIt<ProfileCubit>()),
+              ],
+              child: const CheckOutPage(),
+            ),
+          ),
         );
       case AppRoutesNames.placeOrders:
         return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(const PlaceOrderPage()),
+          builder: (_) => _wrapWithCanPop(
+            BlocProvider.value(
+              value: getIt<CartCubit>(),
+              child: const PlaceOrderPage(),
+            ),
+          ),
         );
       case AppRoutesNames.forgetPassword:
         return MaterialPageRoute(
@@ -135,6 +160,15 @@ class Routes {
       case AppRoutesNames.resetPassword:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const ResetPasswordPage()),
+        );
+      case AppRoutesNames.payment:
+        return MaterialPageRoute(
+          builder: (_) => _wrapWithCanPop(
+            BlocProvider.value(
+              value: getIt<CartCubit>(),
+              child: const PaymentPage(),
+            ),
+          ),
         );
       default:
         return MaterialPageRoute(

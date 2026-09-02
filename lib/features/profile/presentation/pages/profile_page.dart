@@ -10,9 +10,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../auth/presentation/manager/auth_cubit.dart';
 import '../../../auth/presentation/manager/auth_state.dart';
+import '../../../cart/presentation/manager/cart_cubit.dart';
 import '../manager/profile_cubit.dart';
 import '../widgets/simple_app_bar.dart';
 import 'address.dart';
+import 'orders_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -33,12 +35,17 @@ class ProfilePage extends StatelessWidget {
             final user = context.read<AuthCubit>().user;
 
             return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
+              padding: EdgeInsets.symmetric(
+                vertical: 20.h,
+                horizontal: 15.w,
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   spacing: 10.h,
                   children: [
+                    // ================= PROFILE CARD =================
+
                     Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 20.h,
@@ -60,7 +67,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           ProfileImage(
                             imageUrl:
-                                "https://cdn.vectorstock.com/i/1000v/07/38/brown-user-solid-icon-vector-42790738.jpg",
+                            "https://cdn.vectorstock.com/i/1000v/07/38/brown-user-solid-icon-vector-42790738.jpg",
                           ),
 
                           15.horizontalSpace,
@@ -91,6 +98,7 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
                           ),
+
                           InkWell(
                             onTap: () {
                               showModalBottomSheet(
@@ -125,6 +133,8 @@ class ProfilePage extends StatelessWidget {
 
                     50.verticalSpace,
 
+                    // ================= ACCOUNT =================
+
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -136,6 +146,8 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    // ================= ADDRESSES =================
 
                     MenuItems(
                       icon: Icons.location_on_outlined,
@@ -153,17 +165,33 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
 
+                    // ================= ORDERS =================
+
                     MenuItems(
                       icon: Icons.shopping_bag_outlined,
                       title: "My Orders",
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<CartCubit>(),
+                              child: const OrdersPage(),
+                            ),
+                          ),
+                        );
+                      },
                     ),
+
+                    // ================= SETTINGS =================
 
                     MenuItems(
                       icon: Icons.settings_outlined,
                       title: "Settings",
                       onTap: () {},
                     ),
+
+                    // ================= HELP =================
 
                     MenuItems(
                       icon: Icons.help_outline_rounded,
@@ -172,6 +200,8 @@ class ProfilePage extends StatelessWidget {
                     ),
 
                     25.verticalSpace,
+
+                    // ================= LOGOUT =================
 
                     SizedBox(
                       width: double.infinity,
@@ -185,7 +215,7 @@ class ProfilePage extends StatelessWidget {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             AppRoutesNames.login,
-                            (route) => false,
+                                (route) => false,
                           );
                         },
                         text: "Logout",

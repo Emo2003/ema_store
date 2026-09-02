@@ -1,5 +1,5 @@
 import '../../data/models/cart/Products.dart';
-import '../../data/models/order/CartItems.dart';
+import '../../data/models/order/Data.dart';
 
 sealed class CartState {}
 
@@ -99,7 +99,7 @@ class OrderCreatingError extends CartState {
 class OrdersLoading extends CartState {}
 
 class OrdersSuccess extends CartState {
-  final List<CartItems> orders;
+  final List<Data> orders;
 
   OrdersSuccess({required this.orders});
 }

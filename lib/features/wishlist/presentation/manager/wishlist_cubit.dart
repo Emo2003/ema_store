@@ -9,11 +9,15 @@ class WishlistCubit extends Cubit<WishlistState> {
 
   WishlistCubit({required this.wishlistRepo}) : super(WishlistInitialState());
 
+  List<dynamic> wishlistItems = [];
+
   Future<void> getWishlist() async {
     emit(WishlistLoadingState());
 
     try {
       final products = await wishlistRepo.getWishlist();
+
+      wishlistItems = products;
 
       emit(WishlistSuccessState(wishlistProducts: products));
     } catch (e) {
@@ -22,13 +26,7 @@ class WishlistCubit extends Cubit<WishlistState> {
   }
 
   bool isInWishlist(String productId) {
-    if (state is WishlistSuccessState) {
-      final products = (state as WishlistSuccessState).wishlistProducts;
-
-      return products.any((product) => product.id == productId);
-    }
-
-    return false;
+    return wishlistItems.any((product) => product.id == productId);
   }
 
   Future<void> addToWishlist(String productId) async {
@@ -43,12 +41,14 @@ class WishlistCubit extends Cubit<WishlistState> {
   Future<void> removeFromWishlist(String productId) async {
     try {
       await wishlistRepo.removeFromWishlist(productId);
+
       emit(
         WishlistRemoveSuccessState(
           message: "Product removed from wishlist successfully",
           productId: productId,
         ),
       );
+
       await getWishlist();
     } catch (e) {
       emit(

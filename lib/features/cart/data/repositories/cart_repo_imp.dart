@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:ema_store/features/cart/data/data_sources/cart_data_source.dart';
 import 'package:ema_store/features/cart/data/models/cart/Cart_model.dart';
-import 'package:ema_store/features/cart/data/models/cart/Products.dart';
-import 'package:ema_store/features/cart/data/models/order/CartItems.dart';
 import 'package:ema_store/features/cart/data/models/order/Create_order.dart';
 import 'package:ema_store/features/cart/data/repositories/cart_repo.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error_handling/failure.dart';
+import '../models/order/Data.dart';
 
 @Injectable(as: CartRepo)
 class CartRepoImp implements CartRepo {
@@ -43,9 +42,9 @@ class CartRepoImp implements CartRepo {
 
   @override
   Future<CreateOrder> createOrder(
-    String cartId,
-    Map<String, dynamic> shippingAddress,
-  ) async {
+      String cartId,
+      Map<String, dynamic> shippingAddress,
+      ) async {
     try {
       final response = await cartDataSource.createOrder(
         cartId,
@@ -61,15 +60,13 @@ class CartRepoImp implements CartRepo {
   }
 
   @override
-  Future<List<Products>> getCartItems() async {
+  Future<CartModel> getCartItems() async {
     try {
       final response = await cartDataSource.getCartItems();
 
-      final List<dynamic> data = response.data['data']['products'];
+      CartModel data = CartModel.fromJson(response.data);
 
-      return data
-          .map((item) => Products.fromJson(item))
-          .toList();
+      return data;
     } on DioException catch (e) {
       throw ServerFailure.fromDioError(e).message;
     } catch (e) {
@@ -78,13 +75,13 @@ class CartRepoImp implements CartRepo {
   }
 
   @override
-  Future<List<CartItems>> getOrders(String userId) async {
+  Future<List<Data>> getOrders(String userId) async {
     try {
       final response = await cartDataSource.getOrders(userId);
 
       final List<dynamic> data = response.data;
 
-      return data.map((item) => CartItems.fromJson(item)).toList();
+      return data.map((item) => Data.fromJson(item)).toList();
     } on DioException catch (e) {
       throw ServerFailure.fromDioError(e).message;
     } catch (e) {
