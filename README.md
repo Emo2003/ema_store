@@ -101,7 +101,6 @@ The project was built using **Flutter, Dart, BLoC/Cubit, and REST APIs**, with a
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0f5e2779-9614-478f-8274-52bdfc48ad49" width="180"/>
-  <img src="https://github.com/user-attachments/assets/51140878-3e45-4647-95cb-e5d9ff8fd66f" width="180"/>
   <img src="https://github.com/user-attachments/assets/859b3eaa-7124-48e7-b27c-001d44e29bc2" width="180"/>
   <img src="https://github.com/user-attachments/assets/f3bbcd78-5727-48bd-b55a-2d10325c5efc" width="180"/>
   
