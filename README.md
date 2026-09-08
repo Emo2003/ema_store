@@ -287,7 +287,7 @@ This project was built to:
 
 ## Developer
 
-**Eman Medhat**
+[Eman Medhat](https://github.com/Emo2003)
 
 *Flutter Developer · Computer Science Graduate*
 
