@@ -1,3 +1,4 @@
+
 import 'package:ema_store/core/routes/app_routes_names.dart';
 import 'package:ema_store/features/wishlist/presentation/manager/wishlist_cubit.dart';
 import 'package:ema_store/features/wishlist/presentation/manager/wishlist_state.dart';
@@ -7,12 +8,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/color_manager.dart';
 import '../../../cart/presentation/manager/cart_cubit.dart';
+import '../../../cart/presentation/manager/cart_state.dart';
 import '../../data/models/products/Products.dart';
 import '../manager/home_cubit.dart';
 
 class ProductsCard extends StatelessWidget {
   final bool isNotLoading;
-
   final List<Products> products;
 
   const ProductsCard({
@@ -25,8 +26,10 @@ class ProductsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       itemCount: products.length,
-      shrinkWrap: isNotLoading ? true : false,
-      physics: isNotLoading ? const NeverScrollableScrollPhysics() : null,
+      shrinkWrap: isNotLoading,
+      physics: isNotLoading
+          ? const NeverScrollableScrollPhysics()
+          : null,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10.h,
@@ -38,14 +41,17 @@ class ProductsCard extends StatelessWidget {
 
         final hasDiscount =
             product.priceAfterDiscount != null &&
-            product.priceAfterDiscount! > 0 &&
-            product.priceAfterDiscount! < (product.price ?? 0);
+                product.priceAfterDiscount! > 0 &&
+                product.priceAfterDiscount! < (product.price ?? 0);
 
         return InkWell(
           onTap: () {
             context.read<HomeCubit>().selectProduct(product);
 
-            Navigator.pushNamed(context, AppRoutesNames.productsDetails);
+            Navigator.pushNamed(
+              context,
+              AppRoutesNames.productsDetails,
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -70,19 +76,22 @@ class ProductsCard extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.r),
                           child: Image.network(
-                            product.imageCover ?? "",
+                            product.imageCover ?? '',
                             width: double.infinity,
                             height: double.infinity,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return const Center(
-                                child: Icon(Icons.image_not_supported),
+                                child: Icon(
+                                  Icons.image_not_supported,
+                                ),
                               );
                             },
                           ),
                         ),
                       ),
 
+                      // Wishlist button
                       Positioned(
                         top: 8.h,
                         right: 8.w,
@@ -90,24 +99,28 @@ class ProductsCard extends StatelessWidget {
                           builder: (context, state) {
                             final isFavorite =
                                 state is WishlistSuccessState &&
-                                state.wishlistProducts.any(
-                                  (item) => item.id == product.id,
-                                );
+                                    state.wishlistProducts.any(
+                                          (item) => item.id == product.id,
+                                    );
 
                             return CircleAvatar(
                               radius: 15.r,
-                              backgroundColor: ColorManager.primary.withAlpha(
-                                100,
-                              ),
+                              backgroundColor:
+                              ColorManager.primary.withAlpha(100),
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () {
-                                  final cubit = context.read<WishlistCubit>();
+                                  final cubit =
+                                  context.read<WishlistCubit>();
 
                                   if (isFavorite) {
-                                    cubit.removeFromWishlist(product.id ?? '');
+                                    cubit.removeFromWishlist(
+                                      product.id ?? '',
+                                    );
                                   } else {
-                                    cubit.addToWishlist(product.id ?? '');
+                                    cubit.addToWishlist(
+                                      product.id ?? '',
+                                    );
                                   }
                                 },
                                 icon: Icon(
@@ -134,7 +147,7 @@ class ProductsCard extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            product.title ?? "",
+                            product.title ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -151,7 +164,7 @@ class ProductsCard extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                "${product.priceAfterDiscount} EGP",
+                                '${product.priceAfterDiscount} EGP',
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   color: ColorManager.primary,
@@ -164,14 +177,13 @@ class ProductsCard extends StatelessWidget {
                                   alignment: Alignment.center,
                                   children: [
                                     Text(
-                                      "${product.price} EGP",
+                                      '${product.price} EGP',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 12.sp,
-                                        color: ColorManager.primary.withAlpha(
-                                          140,
-                                        ),
+                                        color: ColorManager.primary
+                                            .withAlpha(140),
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -187,48 +199,95 @@ class ProductsCard extends StatelessWidget {
                           )
                         else
                           Text(
-                            "${product.price ?? ""} EGP",
+                            '${product.price ?? ''} EGP',
                             style: TextStyle(
                               fontSize: 14.sp,
                               color: ColorManager.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        Spacer(),
+
+                        const Spacer(),
+
                         Row(
                           children: [
-                            Text(
-                              " Review ( ${product.ratingsAverage ?? ""} )",
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: ColorManager.primary,
-                                fontWeight: FontWeight.w600,
+                            Flexible(
+                              child: Text(
+                                'Review ( ${product.ratingsAverage ?? ''} )',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: ColorManager.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
+
                             7.horizontalSpace,
+
                             Icon(
                               Icons.star,
                               color: Colors.orangeAccent,
                               size: 16.sp,
                             ),
+
                             const Spacer(),
-                            InkWell(
-                              onTap: () {
-                                context.read<CartCubit>().addToCart(
-                                  product.id ?? '',
+                            BlocBuilder<CartCubit, CartState>(
+                              builder: (context, state) {
+                                final cartCubit =
+                                context.read<CartCubit>();
+
+                                final isInCart =
+                                cartCubit.cartItems.any(
+                                      (item) =>
+                                  item.product?.id == product.id,
+                                );
+
+                                if (isInCart) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 8.w,
+                                      vertical: 5.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: ColorManager.primary
+                                          .withAlpha(25),
+                                      borderRadius:
+                                      BorderRadius.circular(12.r),
+                                    ),
+                                    child: Text(
+                                      'In Cart',
+                                      style: TextStyle(
+                                        color: ColorManager.primary,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return InkWell(
+                                  onTap: () {
+                                    cartCubit.addToCart(
+                                      product.id ?? '',
+                                    );
+                                  },
+                                  borderRadius:
+                                  BorderRadius.circular(20.r),
+                                  splashColor: Colors.transparent,
+                                  child: CircleAvatar(
+                                    radius: 12.r,
+                                    backgroundColor:
+                                    ColorManager.primary,
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 20.sp,
+                                      color: ColorManager.secondary,
+                                    ),
+                                  ),
                                 );
                               },
-                              borderRadius: BorderRadius.circular(20.r),
-                              splashColor: Colors.transparent,
-                              child: CircleAvatar(
-                                radius: 12.r,
-                                backgroundColor: ColorManager.primary,
-                                child: Icon(
-                                  Icons.add,
-                                  size: 20.sp,
-                                  color: ColorManager.secondary,
-                                ),
-                              ),
                             ),
                           ],
                         ),

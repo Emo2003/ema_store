@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../payment/data/repositories/payment_repo_imp.dart';
+import '../../../payment/presentation/manager/payment_cubit.dart';
+import '../../../payment/presentation/pages/payment_page.dart';
 import '../widgets/address_card.dart';
 import '../widgets/payment_card.dart';
 import '../widgets/order_summary_card.dart';
@@ -45,16 +48,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
     final profileCubit = context.read<ProfileCubit>();
 
     if (cartCubit.cartItems.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Your cart is empty")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Your cart is empty")),
+      );
       return;
     }
 
     if (cartCubit.cartId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Cart ID not found")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cart ID not found")),
+      );
       return;
     }
 
@@ -79,14 +82,25 @@ class _CheckOutPageState extends State<CheckOutPage> {
     if (selectedPayment == 1) {
       cartCubit.shippingAddress = shippingAddress;
 
-      Navigator.pushNamed(context, AppRoutesNames.payment);
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: cartCubit),
+            BlocProvider(create: (_) => PaymentCubit(PaymentRepoImp())),
+          ],
+          child: PaymentBottomSheet(),
+        ),
+      );
 
       return;
     }
 
+    // Cash on Delivery / Direct Order
     cartCubit.createOrder(cartCubit.cartId!, shippingAddress);
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<CartCubit, CartState>(

@@ -56,10 +56,12 @@ class _LoginPageState extends State<LoginPage> {
                 CustomLoadingDialog.hide(context);
 
                 if (!context.mounted) return;
-
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.error)));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error),
+                    backgroundColor: ColorManager.error,
+                  ),
+                );
               }
             },
 
