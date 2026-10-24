@@ -42,9 +42,9 @@ class CartRepoImp implements CartRepo {
 
   @override
   Future<CreateOrder> createOrder(
-      String cartId,
-      Map<String, dynamic> shippingAddress,
-      ) async {
+    String cartId,
+    Map<String, dynamic> shippingAddress,
+  ) async {
     try {
       final response = await cartDataSource.createOrder(
         cartId,
@@ -117,4 +117,5 @@ class CartRepoImp implements CartRepo {
       throw 'An unexpected error occurred. Please try again.';
     }
   }
+
 }

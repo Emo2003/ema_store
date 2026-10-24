@@ -17,7 +17,6 @@ class PaymentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Cash on Delivery
         _PaymentOption(
           title: "Cash on Delivery",
           subtitle: "Pay when your order arrives",
@@ -28,7 +27,6 @@ class PaymentCard extends StatelessWidget {
 
         10.verticalSpace,
 
-        // Card Payment
         _PaymentOption(
           title: "Card Payment",
           subtitle: "Pay securely using your card",

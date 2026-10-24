@@ -15,9 +15,10 @@ abstract class CartRepo {
   Future<CartModel> clearCart();
 
   Future<CreateOrder> createOrder(
-      String cartId,
-      Map<String, dynamic> shippingAddress,
-      );
+    String cartId,
+    Map<String, dynamic> shippingAddress,
+  );
 
   Future<List<Data>> getOrders(String userId);
+
 }

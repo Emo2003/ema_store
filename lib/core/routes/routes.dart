@@ -5,7 +5,6 @@ import 'package:ema_store/features/auth/presentation/pages/receive_code_page.dar
 import 'package:ema_store/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/cart_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/check_out_page.dart';
-import 'package:ema_store/features/cart/presentation/pages/payment_page.dart';
 import 'package:ema_store/features/cart/presentation/pages/place_order_page.dart';
 import 'package:ema_store/features/category/presentation/manager/category_cubit.dart';
 import 'package:ema_store/features/category/presentation/pages/category_page.dart';
@@ -167,15 +166,6 @@ class Routes {
       case AppRoutesNames.resetPassword:
         return MaterialPageRoute(
           builder: (_) => _wrapWithCanPop(const ResetPasswordPage()),
-        );
-      case AppRoutesNames.payment:
-        return MaterialPageRoute(
-          builder: (_) => _wrapWithCanPop(
-            BlocProvider.value(
-              value: getIt<CartCubit>(),
-              child: const PaymentPage(),
-            ),
-          ),
         );
       default:
         return MaterialPageRoute(

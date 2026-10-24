@@ -11,6 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:ema_store/core/services/network_service.dart' as _i521;
+import 'package:ema_store/core/utils/stripe_service.dart' as _i548;
 import 'package:ema_store/features/auth/data/data_sources/auth_data_source.dart'
     as _i818;
 import 'package:ema_store/features/auth/data/data_sources/auth_data_source_imp.dart'
@@ -51,6 +52,12 @@ import 'package:ema_store/features/home/data/repositories/home_repo_imp.dart'
     as _i385;
 import 'package:ema_store/features/home/presentation/manager/home_cubit.dart'
     as _i574;
+import 'package:ema_store/features/payment/data/repositories/payment_repo.dart'
+    as _i1061;
+import 'package:ema_store/features/payment/data/repositories/payment_repo_imp.dart'
+    as _i115;
+import 'package:ema_store/features/payment/presentation/manager/payment_cubit.dart'
+    as _i817;
 import 'package:ema_store/features/profile/data/data_sources/profile_data_source.dart'
     as _i492;
 import 'package:ema_store/features/profile/data/data_sources/profile_data_source_imp.dart'
@@ -81,7 +88,9 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i548.StripeService>(() => _i548.StripeService());
     gh.lazySingleton<_i521.NetworkService>(() => _i521.NetworkService());
+    gh.factory<_i1061.PaymentRepo>(() => _i115.PaymentRepoImp());
     gh.factory<_i492.ProfileDataSource>(
       () => _i104.ProfileDataSourceImp(gh<_i521.NetworkService>()),
     );
@@ -119,6 +128,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1049.WishlistRepoImp(
         wishlistDataSource: gh<_i341.WishlistDataSource>(),
       ),
+    );
+    gh.factory<_i817.PaymentCubit>(
+      () => _i817.PaymentCubit(gh<_i1061.PaymentRepo>()),
     );
     gh.factory<_i959.HomeRepo>(
       () => _i385.HomeRepoImp(gh<_i568.HomeDataSource>()),

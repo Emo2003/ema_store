@@ -65,25 +65,15 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> removeFromCart(String productId) async {
-    final index = cartItems.indexWhere((item) => item.product?.id == productId);
-
-    if (index == -1) return;
-
-    final removedItem = cartItems[index];
-
-    cartItems.removeAt(index);
-
-    emit(CartItemsSuccess(cartItems: List.from(cartItems)));
-
     try {
       final response = await cartRepo.removeFromCart(productId);
 
+      await getCartItems();
+
       emit(CartRemovingSuccess(message: response.message));
-    } catch (e) {
-      cartItems.insert(index, removedItem);
 
       emit(CartItemsSuccess(cartItems: List.from(cartItems)));
-
+    } catch (e) {
       emit(CartRemovingError(errorMessage: e.toString()));
     }
   }
