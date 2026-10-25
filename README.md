@@ -190,8 +190,10 @@ lib/
 │   ├── error_handling/
 │   ├── resources/
 │   ├── routes/
-│   └── widgets/
-│
+|   ├── services/
+│   ├── utils/
+|   └── widget/
+|   
 └── features/
     ├── auth/
     ├── home/
@@ -199,7 +201,7 @@ lib/
     ├── products/
     ├── cart/
     ├── wishlist/
-    ├── checkout/
+    ├── payment/
     └── profile/
 ```
 
@@ -215,8 +217,8 @@ feature/
 │   └── repositories/
 │
 ├── presentation/
-│   ├── cubit/
-│   ├── screens/
+│   ├── manager/
+│   ├── pages/
 │   └── widgets/
 │
 └── ...
@@ -241,6 +243,7 @@ Each major feature has its own Cubit responsible for managing its state and coor
 | `CartCubit` | Cart items, quantities, and totals |
 | `WishlistCubit` | Saved / favorite products |
 | `ProfileCubit` | User profile, delivery address, and order history |
+| `PaymentCubit` | Stripe payment processing and payment status |
 
 The UI remains primarily declarative, while feature-specific business logic and state transitions are handled by the corresponding Cubits.
 
@@ -308,9 +311,11 @@ This integration demonstrates how a Flutter application can incorporate a third-
 ↓  
 **Checkout**  
 ↓  
-**Stripe Payment**  
+**Select Payment Method**  
 ↓  
-**Payment Result**  
+**Stripe Payment / Cash on Delivery**  
+↓  
+**Payment / Order Confirmation**  
 ↓  
 **Place Order**  
 ↓  
