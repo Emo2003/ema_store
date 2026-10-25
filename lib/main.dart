@@ -12,16 +12,36 @@ import 'features/auth/presentation/manager/auth_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
 
-  Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY']!;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(
+    fileName: '.env',
+    isOptional: true,
+  );
+
+  final publishableKey = dotenv.env['PUBLISHABLE_KEY'];
+
+  if (publishableKey == null || publishableKey.isEmpty) {
+    throw Exception(
+      'PUBLISHABLE_KEY is missing from the environment configuration.',
+    );
+  }
+
+  Stripe.publishableKey = publishableKey;
+
   final isLoggedIn = await StorageService.getToken();
+
   configureDependencies();
 
-  runApp(EmaStore(isLoggedIn: isLoggedIn != null && isLoggedIn.isNotEmpty));
+  runApp(
+    EmaStore(
+      isLoggedIn: isLoggedIn != null && isLoggedIn.isNotEmpty,
+    ),
+  );
 }
+
 
 class EmaStore extends StatelessWidget {
   final bool isLoggedIn;
@@ -50,30 +70,3 @@ class EmaStore extends StatelessWidget {
     );
   }
 }
-
-// Future<void> initPaymentSheet() async {
-//   try {
-//     await Stripe.instance.initPaymentSheet(
-//       paymentSheetParameters: SetupPaymentSheetParameters(
-//         // Main params
-//         paymentIntentClientSecret: data['paymentIntent'],
-//         merchantDisplayName: 'Flutter Stripe Store Demo',
-//
-//         applePay: PaymentSheetApplePay(
-//           merchantCountryCode: 'US',
-//         ),
-//         googlePay: PaymentSheetGooglePay(
-//           merchantCountryCode: 'US',
-//           testEnv: true,
-//         ),
-//         style: ThemeMode.dark,
-//         billingDetails: billingDetails,
-//       ),
-//     );
-//   } catch (e) {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(content: Text('Error: $e')),
-//     );
-//     rethrow;
-//   }
-// }
