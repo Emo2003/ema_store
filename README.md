@@ -4,22 +4,29 @@
 
 ### A modern e-commerce experience, built with Flutter
 
-*Browse. Search. Wishlist. Checkout. All in one clean, scalable app.*
+*Browse. Search. Wishlist. Checkout. Pay securely with Stripe.*
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![BLoC](https://img.shields.io/badge/State_Management-BLoC%2FCubit-4285F4?style=for-the-badge)
 ![REST API](https://img.shields.io/badge/REST-API-FF6F00?style=for-the-badge)
+![Stripe](https://img.shields.io/badge/Payment-Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white)
 
 </div>
 
 <br>
 
+---
+
 ## About the Project
 
-**Ema Store** is a fully functional Flutter e-commerce application that takes a user from their first login all the way through to placing an order. It was built to demonstrate a production-style approach to mobile development — clean architecture, predictable state management, and a UI that feels considered rather than default.
+**Ema Store** is a full-featured Flutter e-commerce application designed to provide a complete shopping experience — from authentication and product discovery to cart management, secure Stripe payments, and order placement.
 
-Every screen was designed around one idea: **the shopping experience should feel effortless.** Behind that simplicity sits a feature-based codebase built for scale, testability, and long-term maintenance.
+The project was built with a production-oriented mindset, focusing on **feature-based clean architecture, predictable state management, reusable UI components, REST API integration, and maintainable code structure**.
+
+The application covers the complete customer journey: users can create an account, browse products and categories, search for products, manage their wishlist and cart, maintain their delivery address, complete payment through **Stripe**, and review their previous orders.
+
+The goal is to build an e-commerce experience that feels simple for the user while maintaining a scalable and organized codebase behind the scenes.
 
 <br>
 
@@ -32,48 +39,61 @@ Every screen was designed around one idea: **the shopping experience should feel
 <td width="50%" valign="top">
 
 ### Authentication
+
 - User login
 - User registration
 - Forgot password
 - Password reset
+- Authentication state handling
 
 ### Home
+
 - Product browsing
 - Category browsing
 - Brand browsing
 - Product search
 - Featured product highlights
+- Product discovery
 
 ### Products
-- Browse by category
-- Browse by brand
-- Full product search
-- Detailed product view
-- Add to cart
-- Add / remove from wishlist
+
+- Browse products by category
+- Browse products by brand
+- Search products
+- Product details
+- Add products to cart
+- Add / remove products from wishlist
 
 </td>
+
 <td width="50%" valign="top">
 
 ### Wishlist
-- Add to wishlist
-- Remove from wishlist
-- View saved favorites
+
+- Add products to wishlist
+- Remove products from wishlist
+- View saved products
+- Manage favorite products
 
 ### Shopping Cart
+
 - Add products to cart
-- Adjust quantity
-- Remove items
+- Increase / decrease quantity
+- Remove products
 - Live cart summary
 - Automatic total calculation
 
-### Checkout
-- Order review
-- Delivery details, pulled from the saved profile address
-- Simulated payment flow
-- Order placement
+### Checkout & Payment
 
-### Profile
+- Order review
+- Delivery details from saved profile address
+- Stripe payment integration
+- Secure payment flow
+- Payment success / failure handling
+- Order placement after successful checkout
+
+### Profile & Orders
+
 - View account information
 - Manage profile details
 - Add and manage delivery address
@@ -143,10 +163,14 @@ Every screen was designed around one idea: **the shopping experience should feel
 | Layer | Tools |
 |---|---|
 | **Framework** | Flutter, Dart |
+| **Architecture** | Feature-Based Clean Architecture |
 | **State Management** | BLoC / Cubit |
 | **Networking** | Dio, REST APIs |
+| **Payment** | Stripe |
 | **Dependency Injection** | GetIt, Injectable |
+| **Local Storage** | FlutterSecureStorage |
 | **UI Utilities** | Flutter ScreenUtil, SVG Assets |
+| **Error Handling** | Custom Failure / API Error Handling |
 | **Version Control** | Git & GitHub |
 
 <br>
@@ -155,7 +179,9 @@ Every screen was designed around one idea: **the shopping experience should feel
 
 ## Architecture
 
-Ema Store follows a **feature-based clean architecture**, separating presentation, business logic, and data concerns so each part of the app can evolve independently.
+Ema Store follows a **feature-based clean architecture** that separates presentation, business logic, and data responsibilities.
+
+This structure keeps features independent, makes the code easier to maintain, and allows individual parts of the application to evolve without tightly coupling the entire project.
 
 ```text
 lib/
@@ -177,25 +203,88 @@ lib/
     └── profile/
 ```
 
-### State Management
+### Feature Structure
 
-Each feature owns its own **Cubit**, keeping UI, logic, and data flow cleanly separated:
+Each feature is organized around its own responsibilities, keeping presentation, business logic, and data access separated.
+
+```text
+feature/
+├── data/
+│   ├── models/
+│   ├── data_sources/
+│   └── repositories/
+│
+├── presentation/
+│   ├── cubit/
+│   ├── screens/
+│   └── widgets/
+│
+└── ...
+```
+
+This approach makes the application easier to extend, debug, and maintain as new features are added.
+
+<br>
+
+---
+
+## State Management
+
+The application uses **BLoC/Cubit** for predictable and reactive state management.
+
+Each major feature has its own Cubit responsible for managing its state and coordinating the required operations.
 
 | Cubit | Responsibility |
 |---|---|
 | `HomeCubit` | Home feed, featured products, categories & brands |
 | `CategoryCubit` | Category-based product filtering |
-| `CartCubit` | Cart items, quantities, totals |
+| `CartCubit` | Cart items, quantities, and totals |
 | `WishlistCubit` | Saved / favorite products |
-| `ProfileCubit` | User profile data, saved delivery address, order history |
+| `ProfileCubit` | User profile, delivery address, and order history |
 
-This structure keeps the UI layer dumb and declarative, while all business logic lives in a single, testable place per feature.
+The UI remains primarily declarative, while feature-specific business logic and state transitions are handled by the corresponding Cubits.
 
 <br>
 
-### Profile-Driven Delivery
+---
 
-The user's **delivery address is managed from their Profile** and reused automatically at checkout, so returning users can review and place an order without re-entering their details every time. The same Profile section surfaces a **full history of past orders**, giving users a single place to manage both their account and their purchase activity.
+## Profile-Driven Delivery
+
+The user's **delivery address is managed through the Profile section** and reused during checkout.
+
+Instead of entering delivery information repeatedly, returning users can select their saved address when reviewing their order.
+
+The Profile section also provides access to the user's **order history**, giving users a central place to manage their account information, delivery details, and previous purchases.
+
+<br>
+
+---
+
+## Stripe Payment Integration
+
+Ema Store integrates **Stripe** into the checkout process to provide a real payment flow rather than a simulated payment experience.
+
+The payment process is connected directly to the checkout journey:
+
+```text
+Cart
+  ↓
+Checkout
+  ↓
+Order Review
+  ↓
+Stripe Payment
+  ↓
+Payment Result
+  ↓
+Place Order
+```
+
+The application handles the payment flow and responds to successful and failed payment states before completing the order.
+
+This integration demonstrates how a Flutter application can incorporate a third-party payment service into a complete e-commerce checkout flow.
+
+> **Note:** Stripe credentials and other sensitive configuration values are kept outside the source code and should not be committed to the repository.
 
 <br>
 
@@ -205,8 +294,27 @@ The user's **delivery address is managed from their Profile** and reused automat
 
 <div align="center">
 
-**Authentication**  →  **Home**  →  **Categories / Brands**  →  **Products**
-→ **Product Details**  →  **Cart**  →  **Checkout**  →  **Payment**  →  **Place Order**
+**Authentication**  
+↓  
+**Home**  
+↓  
+**Categories / Brands / Search**  
+↓  
+**Products**  
+↓  
+**Product Details**  
+↓  
+**Cart**  
+↓  
+**Checkout**  
+↓  
+**Stripe Payment**  
+↓  
+**Payment Result**  
+↓  
+**Place Order**  
+↓  
+**Order History**
 
 </div>
 
@@ -216,11 +324,56 @@ The user's **delivery address is managed from their Profile** and reused automat
 
 ## API Integration
 
-The app talks to a RESTful backend for all core data:
+The application communicates with a RESTful backend for its core e-commerce functionality.
+
+### API Features
 
 **Products · Categories · Brands · Users · Wishlist · Cart · Orders**
 
-All network calls are handled through **Dio**, with each Cubit orchestrating requests, loading states, and error handling — keeping the UI reactive to every stage of a request.
+All HTTP communication is handled through **Dio**.
+
+The application manages:
+
+- API requests
+- Request parameters
+- Authentication headers
+- Response parsing
+- Loading states
+- Success states
+- Error states
+- API failure handling
+
+Cubits coordinate these operations and expose the resulting states to the presentation layer, keeping the UI reactive and separated from the networking implementation.
+
+<br>
+
+---
+
+## Error Handling
+
+The project uses a centralized error-handling approach to provide consistent failure states across the application.
+
+Network and API errors are converted into application-level failures that can be handled by the corresponding Cubit and displayed appropriately by the UI.
+
+This prevents individual screens from having to directly handle low-level networking exceptions.
+
+<br>
+
+---
+
+## Dependency Injection
+
+The application uses **GetIt** together with **Injectable** for dependency injection.
+
+This allows dependencies such as repositories, services, and other application components to be registered and provided where needed without tightly coupling classes to their concrete implementations.
+
+Benefits include:
+
+- Better separation of concerns
+- Easier dependency management
+- Improved testability
+- Reduced tight coupling
+- Cleaner feature initialization
 
 <br>
 
@@ -230,7 +383,7 @@ All network calls are handled through **Dio**, with each Cubit orchestrating req
 
 ### Prerequisites
 
-Make sure Flutter is installed and configured on your machine:
+Make sure Flutter is installed and properly configured on your machine.
 
 ```bash
 flutter doctor
@@ -241,7 +394,7 @@ flutter doctor
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/ema_store.git
+git clone https://github.com/Emo2003/ema_store.git
 ```
 
 **2. Navigate into the project**
@@ -256,7 +409,18 @@ cd ema_store
 flutter pub get
 ```
 
-**4. Run the app**
+**4. Configure environment variables**
+
+Create the required environment configuration file and add the required API and Stripe configuration values.
+
+```env
+PUBLISHABLE_KEY=pk_test_your_publishable_key
+SECRET_KEY=sk_test_your_secret_key
+```
+
+> Never commit secret keys or private credentials to GitHub.
+
+**5. Run the application**
 
 ```bash
 flutter run
@@ -270,25 +434,56 @@ flutter run
 
 This project was built to:
 
-- Deliver a complete, real-world e-commerce app using Flutter
+- Build a complete e-commerce application using Flutter
 - Practice scalable state management with BLoC/Cubit
-- Integrate and manage data through REST APIs
-- Apply clean, maintainable, feature-based architecture
-- Build reusable, consistent UI components
-- Handle complex, multi-step navigation flows
-- Recreate a full shopping journey — from first browse to placed order
-- Connect user profile data (like saved addresses) directly into the checkout flow
+- Integrate REST APIs using Dio
+- Apply feature-based clean architecture
+- Implement dependency injection using GetIt and Injectable
+- Build reusable and consistent UI components
+- Handle authentication and user-specific data
+- Implement product search, categories, brands, cart, and wishlist functionality
+- Build a complete checkout workflow
+- Integrate Stripe payment processing
+- Handle payment success and failure states
+- Connect saved profile addresses with checkout
+- Manage order history
+- Practice clean, maintainable, and scalable Flutter development
 
 <br>
 
 ---
 
-<div align="center">
+## What I Learned
+
+Building Ema Store provided practical experience with:
+
+- Flutter application architecture
+- BLoC/Cubit state management
+- REST API integration
+- Dio networking
+- JSON model handling
+- Authentication flows
+- Dependency injection
+- Error handling
+- Cart and wishlist management
+- Checkout workflows
+- Stripe payment integration
+- Profile and order management
+- Feature-based project organization
+- Git and GitHub workflow
+
+<br>
+
+---
 
 ## Developer
 
-[Eman Medhat](https://github.com/Emo2003)
+<div align="center">
 
-*Flutter Developer · Computer Science Graduate*
+### Eman Medhat
+
+**Flutter Developer · Computer Science Graduate**
+
+[GitHub](https://github.com/Emo2003)
 
 </div>
